@@ -7,12 +7,25 @@ import { Logger } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 
 import { AppModule } from './app/app.module';
+import { SwaggerModule } from '@nestjs/swagger';
+import { ConfigService } from '@nestjs/config';
+import { swaggerConfig } from './config/swagger.config';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  const globalPrefix = 'api';
+  const config = app.get(ConfigService);
+
+  const globalPrefix = '';
   app.setGlobalPrefix(globalPrefix);
-  const port = process.env.PORT || 3000;
+  const port = config.get('PORT')|| 3000;
+
+  // Swagger
+  const document = SwaggerModule.createDocument(app, swaggerConfig);
+  if (process.env.NODE_ENV !== 'production') {
+    Logger.log(`Swagger is running on ${config.get('SWAGGER_PATH')}`)
+    SwaggerModule.setup(config.get('SWAGGER_PATH'), app, document);
+  }
+
   await app.listen(port);
   Logger.log(
     `🚀 Application is running on: http://localhost:${port}/${globalPrefix}`
