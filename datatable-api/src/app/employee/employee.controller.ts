@@ -13,7 +13,8 @@ import { CreateEmployeeDto } from './dto/create-employee.dto';
 import { UpdateEmployeeDto } from './dto/update-employee.dto';
 import { ApiCreatedResponse, ApiOperation, ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { EmployeeEntity } from './entities/employee.entity';
-import { Prisma } from '@prisma/client';
+import { PaginationRequestDto } from './dto/pagination-request.dto';
+import { EmployeePagination } from './entities/employee-pagination.entity';
 
 @ApiTags('Employee')
 @Controller('employees')
@@ -39,22 +40,12 @@ export class EmployeeController {
   })
   @ApiOkResponse({
     description: 'List of employee has been retrieved successfully',
-    type: Array<EmployeeEntity>
+    type: EmployeePagination
   })
   @Get()
-  async findAll(
-    @Query() params?: {
-    skip?: number;
-    take?: number;
-    cursor?: Prisma.EmployeeWhereUniqueInput,
-    where?: Prisma.EmployeeWhereUniqueInput,
-    orderBy?: Prisma.EmployeeOrderByWithRelationInput
-  }) {
-    const results = await this.employeeService.findAll(params);
-    const employees = results.map( employee => {
-      return new EmployeeEntity(employee)
-    })
-    return employees
+  async findAll( @Query() query?: PaginationRequestDto) {
+    const { page, take, ...filter } = query;
+    return this.employeeService.findAll(page, take, filter);
   }
 
   @ApiOperation({
