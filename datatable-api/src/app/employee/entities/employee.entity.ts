@@ -5,7 +5,7 @@ import { randomUUID } from 'crypto';
 /**
  * Class to represent the employee entity
  */
-export class EmployeeEntity implements Omit<Employee, 'departmentId' | 'positionId' | 'createdAt' | 'updatedAt'> {
+export class EmployeeEntity implements Omit<Employee, 'createdAt' | 'updatedAt'> {
 
   /**
   * The id of the employee
@@ -28,6 +28,16 @@ export class EmployeeEntity implements Omit<Employee, 'departmentId' | 'position
   name: string;
 
   /**
+  * The id of the department
+  * @example 611fee75-eb53-4b01-adf4-cd2d9be0c769
+  */
+  @ApiProperty({
+    description: 'Id of the department',
+    example: randomUUID()
+  })
+  departmentId: string;
+
+  /**
   * The department of the employee
   * @example Engineering
   */
@@ -36,6 +46,16 @@ export class EmployeeEntity implements Omit<Employee, 'departmentId' | 'position
     example: 'Engineering'
   })
   department: string;
+
+  /**
+  * The id of the position
+  * @example 611fee75-eb53-4b01-adf4-cd2d9be0c769
+  */
+  @ApiProperty({
+    description: 'Id of the position',
+    example: randomUUID()
+  })
+  positionId: string;
 
   /**
   * The position of the employee
@@ -65,7 +85,9 @@ export class EmployeeEntity implements Omit<Employee, 'departmentId' | 'position
     Object.assign(this,  {
       id: partial.id,
       name: partial.name,
+      departmentId: partial.department.id,
       department: partial.department.name,
+      positionId: partial.position.id,
       position: partial.position.name,
       dateOfHire: partial.dateOfHire.toISOString().split('T')[0]
     })

@@ -10,9 +10,17 @@ import { AppModule } from './app/app.module';
 import { SwaggerModule } from '@nestjs/swagger';
 import { ConfigService } from '@nestjs/config';
 import { swaggerConfig } from './config/swagger.config';
+import {
+  FastifyAdapter,
+  NestFastifyApplication,
+} from '@nestjs/platform-fastify';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create<NestFastifyApplication>(
+    AppModule,
+    new FastifyAdapter()
+  );
+  // const app = await NestFactory.create(AppModule);
   const config = app.get(ConfigService);
 
   const globalPrefix = '';
@@ -34,7 +42,8 @@ async function bootstrap() {
     SwaggerModule.setup(config.get('SWAGGER_PATH'), app, document);
   }
 
-  await app.listen(port);
+  await app.listen(port, '0.0.0.0');
+  // await app.listen(port);
   Logger.log(
     `🚀 Application is running on: http://localhost:${port}/${globalPrefix}`
   );

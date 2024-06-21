@@ -1,14 +1,15 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { REQUEST } from '@nestjs/core';
+import { FastifyRequest } from 'fastify';
 
 @Injectable()
 export class PaginationService<T> {
-  constructor(@Inject(REQUEST) private readonly request: Request) {}
+  constructor(@Inject(REQUEST) private readonly request: FastifyRequest) {}
 
   async paginate(count: number, take: number, results: T[]) {
-    const protocol = (this.request as any).protocol;
-    const host = (this.request as any).get('Host');
-    const originalUrl = (this.request as any).originalUrl;
+    const protocol = this.request.protocol;
+    const host = this.request.hostname;
+    const originalUrl = this.request.originalUrl;
     const fullUrl = new URL(`${protocol}://${host}${originalUrl}`);
 
     const currentPageString = fullUrl.searchParams.get('page');

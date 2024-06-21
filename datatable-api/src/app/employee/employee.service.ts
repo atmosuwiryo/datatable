@@ -5,6 +5,7 @@ import { PrismaService } from '../services/prisma.service';
 import { Department, Employee, Position, Prisma } from '@prisma/client';
 import { EmployeeEntity } from './entities/employee.entity';
 import { PaginationService } from '../services/pagination.service';
+import { EmployeePagination } from './entities/employee-pagination.entity';
 
 @Injectable()
 export class EmployeeService {
@@ -20,8 +21,8 @@ export class EmployeeService {
     })
   }
 
-  async findAll(page = 1, take = 10, filter){
-  // : Promise<EmployeeEntity[]> {
+  async findAll(page = 1, take = 10, filter)
+  : Promise<EmployeePagination> {
     const skip = (page - 1) * take;
 
     const query = {
@@ -60,13 +61,6 @@ export class EmployeeService {
       }
 
       if ('position' in filter) {
-        // Object.assign(query, {
-        //   where: {
-        //     position: {
-        //       name: filter['position']
-        //     }
-        //   }
-        // })
         query['where'] = { position: { name: filter['position'] } }
       }
 
@@ -76,16 +70,14 @@ export class EmployeeService {
 
     const [results, count] = await this.prisma.$transaction([
       prismaQuery,
-      this.prisma.employee.count(query.where),
+      this.prisma.employee.count({ where: query.where}),
     ]);
 
     const employees = results.map( employee => {
       return new EmployeeEntity(employee)
     })
 
-
     return this.paginationService.paginate(count, take, employees)
-    // return employees
   }
 
   async findOne(employeeWhereUniqueInput: Prisma.EmployeeWhereUniqueInput): Promise<(Employee & {department: Department} & {position: Position})| null> {
