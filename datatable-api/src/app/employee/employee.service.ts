@@ -1,26 +1,61 @@
 import { Injectable } from '@nestjs/common';
 import { CreateEmployeeDto } from './dto/create-employee.dto';
 import { UpdateEmployeeDto } from './dto/update-employee.dto';
+import { PrismaService } from '../services/prisma.service';
+import { Department, Employee, Position, Prisma } from '@prisma/client';
 
 @Injectable()
 export class EmployeeService {
-  create(createEmployeeDto: CreateEmployeeDto) {
-    return 'This action adds a new employee';
+
+  constructor(private prisma: PrismaService){}
+
+  async create(createEmployeeDto: CreateEmployeeDto) {
+    return this.prisma.employee.create({
+      data: createEmployeeDto
+    })
   }
 
-  findAll() {
-    return `This action returns all employee`;
+  async findAll(params: {
+    skip?: number;
+    take?: number;
+    cursor?: Prisma.EmployeeWhereUniqueInput,
+    where?: Prisma.EmployeeWhereInput,
+    orderBy?: Prisma.EmployeeOrderByWithRelationInput
+  }): Promise<Array<Employee & {department: Department} & {position: Position}>> {
+    const {skip, take, cursor, where, orderBy} = params;
+    return this.prisma.employee.findMany({
+      skip,
+      take,
+      cursor,
+      where,
+      orderBy,
+      include: {
+        department: true,
+        position: true
+      }
+    })
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} employee`;
+  async findOne(employeeWhereUniqueInput: Prisma.EmployeeWhereUniqueInput): Promise<(Employee & {department: Department} & {position: Position})| null> {
+    return this.prisma.employee.findUnique({
+      where: employeeWhereUniqueInput,
+      include: {
+        department: true,
+        position: true
+      }
+    })
   }
 
-  update(id: number, updateEmployeeDto: UpdateEmployeeDto) {
-    return `This action updates a #${id} employee`;
+  async update(where: Prisma.EmployeeWhereUniqueInput, updateEmployeeDto: UpdateEmployeeDto): Promise<Employee> {
+    return this.prisma.employee.update({
+      where: where,
+      data: updateEmployeeDto
+    })
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} employee`;
+  async remove(where: Prisma.EmployeeWhereUniqueInput): Promise<Employee> {
+    return this.prisma.employee.delete({
+      where: where
+    })
   }
 }

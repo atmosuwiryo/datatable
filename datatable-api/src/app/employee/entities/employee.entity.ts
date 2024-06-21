@@ -1,8 +1,30 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import { Employee } from '@prisma/client'
+import { Employee, Department, Position } from '@prisma/client'
 import { Transform } from 'class-transformer'
+import { randomUUID } from 'crypto';
 
-export class EmployeeEntity implements Omit<Employee, 'id' | 'departmentId' | 'positionId' | 'createdAt' | 'updatedAt'> {
+/**
+ * This class is used to represent the employee entity
+ * @example
+ * const employee = new EmployeeEntity({
+ *   name: 'John Doe',
+ *   department: 'Engineering',
+ *   position: 'Software Engineer',
+ *   dateOfHire: '2022-01-01',
+ * });
+ */
+export class EmployeeEntity implements Omit<Employee, 'departmentId' | 'positionId' | 'createdAt' | 'updatedAt'> {
+  @ApiProperty({
+    description: 'Id of the employee',
+    example: randomUUID()
+  })
+  id: string;
+
+  /**
+  * @description
+  * The name of the employee
+  * @example John Doe
+  */
   @ApiProperty({
     description: 'Name of the employee',
     example: 'John Doe'
@@ -22,6 +44,15 @@ export class EmployeeEntity implements Omit<Employee, 'id' | 'departmentId' | 'p
     description: 'Date of hire',
     example: new Date().toISOString().split('T')[0],
   })
-  @Transform(({ value }) => new Date(value).toISOString().split('T')[0])
   dateOfHire: Date;
+
+  constructor( partial: Partial<Employee> & {department: Department} & {position: Position} ) {
+    Object.assign(this,  {
+      id: partial.id,
+      name: partial.name,
+      department: partial.department.name,
+      position: partial.position.name,
+      dateOfHire: partial.dateOfHire.toISOString().split('T')[0]
+    })
+  }
 }
