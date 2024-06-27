@@ -2,6 +2,7 @@
 <clr-datagrid
   [(clrDgSelected)]="selectedEmployees"
   (clrDgRefresh)="refresh($event)"
+  [clrDgLoading]="loading"
 >
   <clr-dg-column [clrDgSortBy]="'name'">Employee Name</clr-dg-column>
   <clr-dg-column [clrDgField]="'department'">Employee Department</clr-dg-column>

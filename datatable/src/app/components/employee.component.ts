@@ -1,4 +1,4 @@
-import { Component, Injector, OnInit, computed, effect, inject, signal } from '@angular/core';
+import { Component, computed, effect, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { EmployeeService } from '../services/employee.service';
 import { EmployeePagination } from './employee-pagination.interface';
@@ -13,7 +13,7 @@ import { firstValueFrom } from 'rxjs';
   styleUrl: './employee.component.css',
   providers: [EmployeeService]
 })
-export class EmployeeComponent implements OnInit {
+export class EmployeeComponent {
   private employeeService = inject(EmployeeService);
 
   employeesPaginationInitialValue: EmployeePagination = {
@@ -42,13 +42,17 @@ export class EmployeeComponent implements OnInit {
     })
   }
 
-  ngOnInit(): void {
-    console.log('onInit');
-  }
-
-  async getEmployees(page: number, take: number, sort = 'name', reverse = false): Promise<void>{
+  async getEmployees(
+    page: number,
+    take: number,
+    filters?: unknown[],
+    sort = 'name',
+    reverse = false
+  ): Promise<void>{
     this.loading = true;
-    const employeesPagination$ = await firstValueFrom(this.employeeService.getEmployee(page, take, sort, reverse))
+    const employeesPagination$ = await firstValueFrom(
+        this.employeeService.getEmployee(page, take, sort, reverse, filters)
+    )
     this.loading = false;
     this.employeesPagination$.set(employeesPagination$);
   }
@@ -72,10 +76,12 @@ export class EmployeeComponent implements OnInit {
         filters[property] = [value];
       }
     }
+    console.log(filters);
+
     if (state.sort) {
-      this.getEmployees(this.page, this.take, state.sort.by as string, state.sort.reverse);
+      this.getEmployees(this.page, this.take, state.filters, state.sort.by as string, state.sort.reverse);
     } else {
-      this.getEmployees(this.page, this.take);
+      this.getEmployees(this.page, this.take, state.filters);
     }
   }
 

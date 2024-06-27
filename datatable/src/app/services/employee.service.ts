@@ -9,12 +9,28 @@ export class EmployeeService {
 
   constructor(private httpClient: HttpClient) { }
 
-  getEmployee(page: number, take: number, sort = 'name', reverse = false) {
-    return this.httpClient.get<EmployeePagination>(
-      `/api/employees?page=${page}
-&take=${take}
-&orderBy=${sort}
-&orderDirection=${reverse? 'desc': 'asc'}`
-    );
+  getEmployee(
+    page: number,
+    take: number,
+    sort = 'name',
+    reverse = false,
+    filters?: unknown[]
+  ) {
+    console.log('filters', filters)
+    let url =  `/api/employees?page=${page}`
+      + `&take=${take}`
+      + `&orderBy=${sort}`
+      + `&orderDirection=${reverse? 'desc': 'asc'}`
+    if (filters) {
+      (filters as [{property: string, value: string}]).forEach((filter) => {
+        if (filter.property === 'department') {
+          url += `&department=${filter.value}`
+        } else if (filter.property === 'position') {
+          url += `&position=${filter.value}`
+        }
+      })
+    }
+    console.log('url: ', url)
+    return this.httpClient.get<EmployeePagination>(url);
   }
 }

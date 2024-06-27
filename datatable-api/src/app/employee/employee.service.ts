@@ -48,20 +48,25 @@ export class EmployeeService {
 
       if ('orderBy' in filter) {
 
+        let orderDirection = 'asc';  // init default order direction
         if ('orderDirection' in filter) {
-          query['orderBy'] = { [filter['orderBy']]: filter['orderDirection'] }
+          orderDirection = filter['orderDirection']
+        }
+
+        if (filter['orderBy'] === 'department' || filter['orderBy'] === 'position') {
+          query['orderBy'] = { [filter['orderBy']]: { name: orderDirection } }
         } else {
-          query['orderBy'] = { [filter['orderBy']]: 'asc' }
+          query['orderBy'] = { [filter['orderBy']]: orderDirection }
         }
 
       }
 
       if ('department' in filter) {
-        query['where'] = { department: { name: filter['department'] } }
+        query['where'] = { department: { name: { contains: filter['department'] } } }
       }
 
       if ('position' in filter) {
-        query['where'] = { position: { name: filter['position'] } }
+        query['where'] = { position: { name: { contains: filter['position'] } } }
       }
 
     }
