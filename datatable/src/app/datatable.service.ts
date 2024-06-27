@@ -9,6 +9,6 @@ export class DatatableService {
   constructor(private http: HttpClient) { }
 
   getDatatable() {
-    return this.http.get('/api');
+    return this.http.get('/api/employees/');
   }
 }
