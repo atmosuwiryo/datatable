@@ -1,9 +1,10 @@
-<div class="main-container">
-  <header class="header-6">
+<clr-main-container>
+
+  <clr-header class="header-6">
     <div class="branding">
       <a href="javascript://">
         <cds-icon shape="vm-bug"></cds-icon>
-        <span class="title">Datatable</span>
+        <span class="title">Datatable using angular and clarity design</span>
       </a>
     </div>
     <div class="settings">
@@ -11,16 +12,17 @@
         <cds-icon shape="cog"></cds-icon>
       </a>
     </div>
-  </header>
-  <nav class="subnav">Angular datatable with clarity design</nav>
+  </clr-header>
+
   <div class="content-container">
-    <div class="content-area">
+    <main class="content-area">
       <app-employee />
-    </div>
-    <clr-vertical-nav>
+    </main>
+    <clr-vertical-nav [clr-nav-level]="2">
       <a clrVerticalNavLink>Employee</a>
       <a clrVerticalNavLink>Department</a>
       <a clrVerticalNavLink>Position</a>
     </clr-vertical-nav>
   </div>
-</div>
+
+</clr-main-container>
