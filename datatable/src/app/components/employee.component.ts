@@ -58,11 +58,10 @@ export class EmployeeComponent {
   }
 
   pageChanged(page: number) {
-    console.log('pageChanged', page);
+    this.selectedEmployees = []
   }
 
   refresh(state: ClrDatagridStateInterface) {
-    console.log('state', state);
     if (state.page?.current) {
       this.page = state.page.current;
     }
@@ -76,7 +75,6 @@ export class EmployeeComponent {
         filters[property] = [value];
       }
     }
-    console.log(filters);
 
     if (state.sort) {
       this.getEmployees(this.page, this.take, state.filters, state.sort.by as string, state.sort.reverse);

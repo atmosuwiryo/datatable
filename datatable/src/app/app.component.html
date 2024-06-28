@@ -7,10 +7,25 @@
         <span class="title">Datatable using angular and clarity design</span>
       </a>
     </div>
-    <div class="settings">
-      <a href="javascript://" class="nav-link nav-icon">
-        <cds-icon shape="cog"></cds-icon>
-      </a>
+    <!-- <div class="settings"> -->
+    <!--   <a href="javascript://" class="nav-link nav-icon"> -->
+    <!--     <cds-icon shape="cog"></cds-icon> -->
+    <!--   </a> -->
+    <!-- </div> -->
+    <div class="header-actions">
+      <clr-dropdown>
+        <button class="nav-icon" clrDropdownTrigger aria-label="toggle settings menu">
+          <cds-icon shape="cog"></cds-icon>
+          <cds-icon shape="angle" direction="down"></cds-icon>
+        </button>
+        <clr-dropdown-menu *clrIfOpen clrPosition="bottom-right">
+          @if(theme === 'light') {
+            <button clrDropdownItem (click)="darkMode()"><cds-icon shape="moon" solid></cds-icon>Dark Mode</button>
+          } @else {
+            <button clrDropdownItem (click)="lightMode()"><cds-icon shape="sun" solid></cds-icon>Light Mode</button>
+          }
+        </clr-dropdown-menu>
+      </clr-dropdown>
     </div>
   </clr-header>
 

@@ -16,7 +16,6 @@ export class EmployeeService {
     reverse = false,
     filters?: unknown[]
   ) {
-    console.log('filters', filters)
     let url =  `/api/employees?page=${page}`
       + `&take=${take}`
       + `&orderBy=${sort}`
@@ -30,7 +29,6 @@ export class EmployeeService {
         }
       })
     }
-    console.log('url: ', url)
     return this.httpClient.get<EmployeePagination>(url);
   }
 }
