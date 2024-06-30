@@ -83,4 +83,11 @@ export class EmployeeComponent {
     }
   }
 
+  onEdit(employee: any) {
+    console.log(employee)
+  }
+
+  onDelete(employee: any) {
+    console.log(employee)
+  }
 }

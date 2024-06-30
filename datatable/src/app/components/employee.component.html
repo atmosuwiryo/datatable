@@ -13,6 +13,10 @@
   <!-- we cannot use the smart iterator *clrDgItems in server driven datagrid -->
   <!-- see https://clarity.design/documentation/datagrid/code/server-driven -->
   <clr-dg-row *ngFor="let employee of employees$()" [clrDgItem]="employee">
+    <clr-dg-action-overflow>
+      <button class="action-item" (click)="onEdit(employee)">Edit</button>
+      <button class="action-item" (click)="onDelete(employee)">Delete</button>
+    </clr-dg-action-overflow>
     <clr-dg-cell>{{ employee.name }}</clr-dg-cell>
     <clr-dg-cell>{{ employee.department }}</clr-dg-cell>
     <clr-dg-cell>{{ employee.position }}</clr-dg-cell>
