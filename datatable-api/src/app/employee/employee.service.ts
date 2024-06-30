@@ -39,9 +39,9 @@ export class EmployeeService {
       if ('search'in filter) {
         query['where'] = {
           OR: [
-            { name: { contains: filter['search'] } },
-            { department: { name: { contains: filter['search'] } } },
-            { position: { name: { contains: filter['search'] } } }
+            { name: { contains: filter['search'], mode: 'insensitive' } },
+            { department: { name: { contains: filter['search'], mode: 'insensitive' } } },
+            { position: { name: { contains: filter['search'], mode: 'insensitive' } } }
           ]
         }
       }
@@ -75,7 +75,7 @@ export class EmployeeService {
 
     const [results, count] = await this.prisma.$transaction([
       prismaQuery,
-      this.prisma.employee.count({ where: query.where}),
+      this.prisma.employee.count({ where: query.where }),
     ]);
 
     const employees = results.map( employee => {
@@ -85,26 +85,38 @@ export class EmployeeService {
     return this.paginationService.paginate(count, take, employees)
   }
 
-  async findOne(employeeWhereUniqueInput: Prisma.EmployeeWhereUniqueInput): Promise<(Employee & {department: Department} & {position: Position})| null> {
-    return this.prisma.employee.findUnique({
+  async findOne(employeeWhereUniqueInput: Prisma.EmployeeWhereUniqueInput): Promise<EmployeeEntity> {
+    const result = await this.prisma.employee.findUnique({
       where: employeeWhereUniqueInput,
       include: {
         department: true,
         position: true
       }
     })
+    return new EmployeeEntity(result)
   }
 
-  async update(where: Prisma.EmployeeWhereUniqueInput, updateEmployeeDto: UpdateEmployeeDto): Promise<Employee> {
-    return this.prisma.employee.update({
+  async update(where: Prisma.EmployeeWhereUniqueInput, updateEmployeeDto: UpdateEmployeeDto): Promise<EmployeeEntity> {
+    const result = await this.prisma.employee.update({
       where: where,
-      data: updateEmployeeDto
+      data: updateEmployeeDto,
+      include: {
+        department: true,
+        position: true
+      }
     })
+    return new EmployeeEntity(result)
   }
 
-  async remove(where: Prisma.EmployeeWhereUniqueInput): Promise<Employee> {
-    return this.prisma.employee.delete({
-      where: where
+  async remove(where: Prisma.EmployeeWhereUniqueInput): Promise<EmployeeEntity> {
+    const result = await this.prisma.employee.delete({
+      where: where,
+      include: {
+        department: true,
+        position: true
+      }
     })
+
+    return new EmployeeEntity(result)
   }
 }

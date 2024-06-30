@@ -11,7 +11,7 @@ import {
 import { EmployeeService } from './employee.service';
 import { CreateEmployeeDto } from './dto/create-employee.dto';
 import { UpdateEmployeeDto } from './dto/update-employee.dto';
-import { ApiCreatedResponse, ApiOperation, ApiOkResponse, ApiTags, ApiQuery } from '@nestjs/swagger';
+import { ApiCreatedResponse, ApiOperation, ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { EmployeeEntity } from './entities/employee.entity';
 import { PaginationRequestDto } from './dto/pagination-request.dto';
 import { EmployeePagination } from './entities/employee-pagination.entity';
@@ -42,9 +42,6 @@ export class EmployeeController {
     description: 'List of employee has been retrieved successfully',
     type: EmployeePagination
   })
-  // @ApiQuery({
-  //   type: PaginationRequestDto
-  // })
   @Get()
   async findAll( @Query() query?: PaginationRequestDto) {
     const { page, take, ...filter } = query;
@@ -61,16 +58,15 @@ export class EmployeeController {
   })
   @Get(':id')
   async findOne(@Param('id') id: string) {
-    const employee = await this.employeeService.findOne({id});
-    return new EmployeeEntity(employee)
+    return await this.employeeService.findOne({id});
   }
 
   @ApiOperation({
-    summary: 'Edit existing employee by id',
-    description: 'Endpoint to edit employee by id'
+    summary: 'Update existing employee by id',
+    description: 'Endpoint to update employee by id'
   })
   @ApiOkResponse({
-    description: 'Employee data has been edited successfully',
+    description: 'Employee data has been updated successfully',
     type: EmployeeEntity
   })
   @Patch(':id')

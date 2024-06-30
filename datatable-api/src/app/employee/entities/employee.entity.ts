@@ -8,9 +8,9 @@ import { randomUUID } from 'crypto';
 export class EmployeeEntity implements Omit<Employee, 'createdAt' | 'updatedAt'> {
 
   /**
-  * The id of the employee
-  * @example 611fee75-eb53-4b01-adf4-cd2d9be0c769
-  */
+   * The id of the employee
+   * @example 611fee75-eb53-4b01-adf4-cd2d9be0c769
+   */
   @ApiProperty({
     description: 'Id of the employee',
     example: randomUUID()
@@ -18,9 +18,9 @@ export class EmployeeEntity implements Omit<Employee, 'createdAt' | 'updatedAt'>
   id: string;
 
   /**
-  * The name of the employee
-  * @example John Doe
-  */
+   * The name of the employee
+   * @example John Doe
+   */
   @ApiProperty({
     description: 'Name of the employee',
     example: 'John Doe'
@@ -28,9 +28,9 @@ export class EmployeeEntity implements Omit<Employee, 'createdAt' | 'updatedAt'>
   name: string;
 
   /**
-  * The id of the department
-  * @example 611fee75-eb53-4b01-adf4-cd2d9be0c769
-  */
+   * The id of the department
+   * @example 611fee75-eb53-4b01-adf4-cd2d9be0c769
+   */
   @ApiProperty({
     description: 'Id of the department',
     example: randomUUID()
@@ -38,9 +38,9 @@ export class EmployeeEntity implements Omit<Employee, 'createdAt' | 'updatedAt'>
   departmentId: string;
 
   /**
-  * The department of the employee
-  * @example Engineering
-  */
+   * The department of the employee
+   * @example Engineering
+   */
   @ApiProperty({
     description: 'Name of the department',
     example: 'Engineering'
@@ -48,9 +48,9 @@ export class EmployeeEntity implements Omit<Employee, 'createdAt' | 'updatedAt'>
   department: string;
 
   /**
-  * The id of the position
-  * @example 611fee75-eb53-4b01-adf4-cd2d9be0c769
-  */
+   * The id of the position
+   * @example 611fee75-eb53-4b01-adf4-cd2d9be0c769
+   */
   @ApiProperty({
     description: 'Id of the position',
     example: randomUUID()
@@ -58,9 +58,9 @@ export class EmployeeEntity implements Omit<Employee, 'createdAt' | 'updatedAt'>
   positionId: string;
 
   /**
-  * The position of the employee
-  * @example Software Engineer
-  */
+   * The position of the employee
+   * @example Software Engineer
+   */
   @ApiProperty({
     description: 'Name of the position',
     example: 'Software Engineer'
@@ -68,9 +68,9 @@ export class EmployeeEntity implements Omit<Employee, 'createdAt' | 'updatedAt'>
   position: string;
 
   /**
-  * The date of hire of the employee
-  * @example 2022-01-01
-  */
+   * The date of hire of the employee
+   * @example 2022-01-01
+   */
   @ApiPropertyOptional({
     description: 'Date of hire',
     example: new Date().toISOString().split('T')[0],
@@ -78,9 +78,9 @@ export class EmployeeEntity implements Omit<Employee, 'createdAt' | 'updatedAt'>
   dateOfHire: Date;
 
   /**
-  * The constructor of the EmployeeEntity
-  * @param partial
-  */
+   * The constructor of the EmployeeEntity
+   * @param partial
+   */
   constructor( partial: Partial<Employee> & {department: Department} & {position: Position} ) {
     Object.assign(this,  {
       id: partial.id,
