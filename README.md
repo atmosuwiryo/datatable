@@ -1,4 +1,30 @@
-# WaikiMonorepo
+# Angular-Nest Datatable
+
+Example of datatable application using Angular and Nest under Nx Monorepo.
+
+## Run on localhost
+
+### 1. Run infra
+
+```
+cd datatable-workspace
+docker compose up
+```
+
+### 2. Run Backend
+
+```
+npx nx serve datatable-api
+```
+
+### 3. Run Frontend
+
+```
+npx nx serve datatable
+```
+
+***
+
 
 <a alt="Nx logo" href="https://nx.dev" target="_blank" rel="noreferrer"><img src="https://raw.githubusercontent.com/nrwl/nx/master/images/nx-logo.png" width="45"></a>
 
