@@ -1,9 +1,9 @@
 import { Component, computed, effect, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { EmployeeService } from '../services/employee.service';
+import { EmployeeService } from '../../services/employee.service';
 import { EmployeePagination } from './employee-pagination.interface';
 import { ClrDatagridModule, ClrDatagridStateInterface } from '@clr/angular';
-import { firstValueFrom } from 'rxjs';
+import { Subject, debounce, firstValueFrom, interval } from 'rxjs';
 
 @Component({
   selector: 'app-employee',
@@ -33,13 +33,21 @@ export class EmployeeComponent {
   lastPage$ = computed(() => Math.ceil(this.employeesPagination$().count / this.take))
 
   loading = true;
+  previousState?: ClrDatagridStateInterface;
+  debouncer = new Subject<ClrDatagridStateInterface>();
 
   constructor() {
-    effect(() => {
-      console.log('effect: employeesPagination$', this.employeesPagination$());
-      console.log('effect: employees$', this.employees$());
-      console.log('effect: count$', this.count$());
-    })
+    // effect(() => {
+    //   console.log('effect: employeesPagination$', this.employeesPagination$());
+    //   console.log('effect: employees$', this.employees$());
+    //   console.log('effect: count$', this.count$());
+    // })
+
+    this.debouncer.asObservable().pipe(debounce(() => interval(500))).subscribe(state => {
+      const sort = state.sort ? state.sort.by as string : 'name';
+      const reverse = state.sort ? state.sort.reverse : false;
+      this.getEmployees(this.page, this.take, state.filters, sort, reverse);
+    });
   }
 
   async getEmployees(
@@ -62,6 +70,10 @@ export class EmployeeComponent {
   }
 
   refresh(state: ClrDatagridStateInterface) {
+    // Check is filter changed by comparing 2 filters arrays,
+    // here we use JSON.stringify to compare 2 objects
+    const isFilterChanged = JSON.stringify(state.filters) !== JSON.stringify(this.previousState?.filters) ? true:false;
+
     if (state.page?.current) {
       this.page = state.page.current;
     }
@@ -76,10 +88,16 @@ export class EmployeeComponent {
       }
     }
 
-    if (state.sort) {
-      this.getEmployees(this.page, this.take, state.filters, state.sort.by as string, state.sort.reverse);
+    this.previousState = state;
+
+    // Debounce only for filter changes
+    if (isFilterChanged) {
+      this.debouncer.next(state);
     } else {
-      this.getEmployees(this.page, this.take, state.filters);
+      const sort = state.sort ? state.sort.by as string : 'name';
+      const reverse = state.sort ? state.sort.reverse : false;
+
+      this.getEmployees(this.page, this.take, state.filters, sort, reverse);
     }
   }
 

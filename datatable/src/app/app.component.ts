@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { ClarityModule } from '@clr/angular';
-import { EmployeeComponent } from './components/employee.component';
+import { EmployeeComponent } from './components/employee/employee.component';
 import '@cds/core/icon/register.js';
 import { ClarityIcons, vmBugIcon, cogIcon, sunIcon, moonIcon } from '@cds/core/icon';
 import { DOCUMENT } from '@angular/common';

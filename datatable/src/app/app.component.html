@@ -33,12 +33,13 @@
 
   <div class="content-container">
     <main class="content-area">
-      <app-employee />
+      <router-outlet></router-outlet>
+      <!-- <app-employee /> -->
     </main>
     <clr-vertical-nav [clr-nav-level]="2">
-      <a clrVerticalNavLink>Employee</a>
-      <a clrVerticalNavLink>Department</a>
-      <a clrVerticalNavLink>Position</a>
+      <a clrVerticalNavLink routerLink="employee" routerLinkActive="active">Employee</a>
+      <a clrVerticalNavLink routerLink="department" routerLinkActive="active">Department</a>
+      <a clrVerticalNavLink routerLink="position" routerLinkActive="active">Position</a>
     </clr-vertical-nav>
   </div>
 </clr-main-container>

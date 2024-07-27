@@ -1,0 +1,36 @@
+<!-- <pre>{{ pagination | json }}</pre> -->
+<clr-datagrid
+  [(clrDgSelected)]="selectedPositions"
+  (clrDgRefresh)="refresh($event)"
+  [clrDgLoading]="loading"
+>
+  <clr-dg-column [clrDgField]="'name'">Position Name</clr-dg-column>
+
+  <!-- We use *ngFor instead of *clrDgItems since -->
+  <!-- we cannot use the smart iterator *clrDgItems in server driven datagrid -->
+  <!-- see https://clarity.design/documentation/datagrid/code/server-driven -->
+  <clr-dg-row *ngFor="let position of positions$()" [clrDgItem]="position">
+    <clr-dg-action-overflow>
+      <button class="action-item" (click)="onEdit(position)">Edit</button>
+      <button class="action-item" (click)="onDelete(position)">Delete</button>
+    </clr-dg-action-overflow>
+    <clr-dg-cell>{{ position.name }}</clr-dg-cell>
+  </clr-dg-row>
+
+  <clr-dg-footer>
+    <clr-dg-pagination
+      #pagination
+      [clrDgPageSize]="take"
+      [clrDgPage]="page"
+      [clrDgLastPage]="lastPage$()"
+      (clrDgPageChange)="pageChanged($event)"
+      [clrDgTotalItems]="count$()"
+    >
+      <clr-dg-page-size [clrPageSizeOptions]="[10, 20, 50, 100]">
+        Positions per page
+      </clr-dg-page-size>
+      {{ pagination.firstItem + 1 }} - {{ pagination.lastItem + 1 }} of
+      {{ pagination.totalItems }} positions
+    </clr-dg-pagination>
+  </clr-dg-footer>
+</clr-datagrid>
