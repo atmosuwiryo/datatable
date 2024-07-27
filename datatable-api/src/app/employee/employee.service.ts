@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { CreateEmployeeDto } from './dto/create-employee.dto';
 import { UpdateEmployeeDto } from './dto/update-employee.dto';
 import { PrismaService } from '../services/prisma.service';
-import { Department, Employee, Position, Prisma } from '@prisma/client';
+import { Prisma } from '@prisma/client';
 import { EmployeeEntity } from './entities/employee.entity';
 import { PaginationService } from '../services/pagination.service';
 import { EmployeePagination } from './entities/employee-pagination.entity';
@@ -61,12 +61,27 @@ export class EmployeeService {
 
       }
 
+      const queryFilter = [];
+      let isQueryFilter = false;
+      if ('name' in filter) {
+        isQueryFilter = true;
+        queryFilter.push({ name: { contains: filter['name'], mode: 'insensitive' } })
+      }
+
       if ('department' in filter) {
-        query['where'] = { department: { name: { contains: filter['department'] } } }
+        isQueryFilter = true;
+        queryFilter.push({ department: { name: { contains: filter['department'], mode: 'insensitive' } } })
       }
 
       if ('position' in filter) {
-        query['where'] = { position: { name: { contains: filter['position'] } } }
+        isQueryFilter = true;
+        queryFilter.push({ position: { name: { contains: filter['position'], mode: 'insensitive' } } })
+      }
+
+      if (isQueryFilter) {
+        query['where'] = {
+          AND: queryFilter
+        }
       }
 
     }

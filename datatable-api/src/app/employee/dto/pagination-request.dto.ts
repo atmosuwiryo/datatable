@@ -39,6 +39,16 @@ export class PaginationRequestDto {
   take?: number;
 
   @ApiProperty({
+    description: 'Name',
+    type: String,
+    example: 'John',
+  })
+  @ApiPropertyOptional()
+  @IsOptional()
+  @IsString()
+  name?: string;
+
+  @ApiProperty({
     description: 'Department',
     type: String,
     example: 'Engineering',
