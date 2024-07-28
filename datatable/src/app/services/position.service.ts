@@ -16,7 +16,7 @@ export class PositionService {
     reverse = false,
     filters?: unknown[]
   ) {
-    let url =  `http://localhost:3000/api/positions?page=${page}`
+    let url =  `/api/positions?page=${page}`
       + `&take=${take}`
       + `&orderBy=${sort}`
       + `&orderDirection=${reverse? 'desc': 'asc'}`

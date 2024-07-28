@@ -16,7 +16,7 @@ export class DepartmentService {
     reverse = false,
     filters?: unknown[]
   ) {
-    let url =  `http://localhost:3000/api/departments?page=${page}`
+    let url =  `/api/departments?page=${page}`
       + `&take=${take}`
       + `&orderBy=${sort}`
       + `&orderDirection=${reverse? 'desc': 'asc'}`

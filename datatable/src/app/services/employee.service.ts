@@ -16,7 +16,7 @@ export class EmployeeService {
     reverse = false,
     filters?: unknown[]
   ) {
-    let url =  `http://localhost:3000/api/employees?page=${page}`
+    let url =  `/api/employees?page=${page}`
       + `&take=${take}`
       + `&orderBy=${sort}`
       + `&orderDirection=${reverse? 'desc': 'asc'}`

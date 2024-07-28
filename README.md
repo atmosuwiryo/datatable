@@ -14,6 +14,9 @@ docker compose up
 ### 2. Run Backend
 
 ```
+cd datatable-api
+cp .env.example .env
+npx prisma migrate reset
 npx nx serve datatable-api
 ```
 
@@ -22,6 +25,10 @@ npx nx serve datatable-api
 ```
 npx nx serve datatable
 ```
+
+## Live demo
+
+[Live demo](https://nx-datatable.waiki.dev)
 
 ***
 
