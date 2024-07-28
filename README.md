@@ -17,6 +17,7 @@ docker compose up
 cd datatable-api
 cp .env.example .env
 npx prisma migrate reset
+cd ..
 npx nx serve datatable-api
 ```
 
