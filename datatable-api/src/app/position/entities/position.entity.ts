@@ -1,5 +1,6 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { Position } from "@prisma/client";
+import { Exclude } from "class-transformer";
 
 export class PositionEntity implements Omit<Position, 'createdAt' | 'updatedAt'> {
 
@@ -22,6 +23,12 @@ export class PositionEntity implements Omit<Position, 'createdAt' | 'updatedAt'>
     example: 'Software Engineer'
   })
   name: string
+
+  @Exclude()
+  createdAt: Date
+
+  @Exclude()
+  updatedAt: Date
 
   constructor( partial: Partial<Position> ) {
     Object.assign(this, {

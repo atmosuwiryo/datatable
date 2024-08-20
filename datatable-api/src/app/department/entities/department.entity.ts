@@ -1,5 +1,6 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { Department } from "@prisma/client";
+import { Exclude } from "class-transformer";
 
 export class DepartmentEntity implements Omit<Department, 'createdAt' | 'updatedAt'> {
 
@@ -22,6 +23,12 @@ export class DepartmentEntity implements Omit<Department, 'createdAt' | 'updated
     example: 'HR'
   })
   name: string
+
+  @Exclude()
+  createdAt: Date
+
+  @Exclude()
+  updatedAt: Date
 
   constructor( partial: Partial<Department> ) {
     Object.assign(this, {
