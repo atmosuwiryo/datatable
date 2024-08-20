@@ -17,7 +17,7 @@ export class PaginationRequestDto {
   @IsOptional()
   @Type(() => Number)
   @IsPositive()
-  page?: number;
+    page?: number;
 
   @ApiProperty({
     description: 'Number of items per page',
@@ -29,7 +29,7 @@ export class PaginationRequestDto {
   @IsOptional()
   @Type(() => Number)
   @IsPositive()
-  take?: number;
+    take?: number;
 
   @ApiProperty({
     description: 'Search query',
@@ -39,7 +39,7 @@ export class PaginationRequestDto {
   @ApiPropertyOptional()
   @IsOptional()
   @IsString()
-  search?: string;
+    search?: string;
 
   @ApiProperty({
     description: 'Order direction',
@@ -50,5 +50,5 @@ export class PaginationRequestDto {
   @ApiPropertyOptional()
   @IsOptional()
   @IsEnum(OrderDirection)
-  orderDirection?: OrderDirection;
+    orderDirection?: OrderDirection;
 }

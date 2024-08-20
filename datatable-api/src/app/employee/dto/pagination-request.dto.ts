@@ -24,7 +24,7 @@ export class PaginationRequestDto {
   @IsOptional()
   @Type(() => Number)
   @IsPositive()
-  page?: number;
+    page?: number;
 
   @ApiProperty({
     description: 'Number of items per page',
@@ -36,7 +36,7 @@ export class PaginationRequestDto {
   @IsOptional()
   @Type(() => Number)
   @IsPositive()
-  take?: number;
+    take?: number;
 
   @ApiProperty({
     description: 'Name',
@@ -46,7 +46,7 @@ export class PaginationRequestDto {
   @ApiPropertyOptional()
   @IsOptional()
   @IsString()
-  name?: string;
+    name?: string;
 
   @ApiProperty({
     description: 'Department',
@@ -56,7 +56,7 @@ export class PaginationRequestDto {
   @ApiPropertyOptional()
   @IsOptional()
   @IsString()
-  department?: string;
+    department?: string;
 
   @ApiProperty({
     description: 'Position',
@@ -66,7 +66,7 @@ export class PaginationRequestDto {
   @ApiPropertyOptional()
   @IsOptional()
   @IsString()
-  position?: string;
+    position?: string;
 
   @ApiProperty({
     description: 'Search query',
@@ -76,7 +76,7 @@ export class PaginationRequestDto {
   @ApiPropertyOptional()
   @IsOptional()
   @IsString()
-  search?: string;
+    search?: string;
 
   @ApiProperty({
     description: 'Order by',
@@ -87,7 +87,7 @@ export class PaginationRequestDto {
   @ApiPropertyOptional()
   @IsOptional()
   @IsEnum(OrderBy)
-  orderBy?: OrderBy;
+    orderBy?: OrderBy;
 
   @ApiProperty({
     description: 'Order direction',
@@ -98,5 +98,5 @@ export class PaginationRequestDto {
   @ApiPropertyOptional()
   @IsOptional()
   @IsEnum(OrderDirection)
-  orderDirection?: OrderDirection;
+    orderDirection?: OrderDirection;
 }

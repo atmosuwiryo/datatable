@@ -12,7 +12,7 @@ export class PositionEntity implements Omit<Position, 'createdAt' | 'updatedAt'>
     description: 'Id of the position',
     example: '611fee75-eb53-4b01-adf4-cd2d9be0c769'
   })
-  id: string
+    id: string;
 
   /**
    * The name of the position
@@ -22,15 +22,15 @@ export class PositionEntity implements Omit<Position, 'createdAt' | 'updatedAt'>
     description: 'Name of the position',
     example: 'Software Engineer'
   })
-  name: string
+    name: string;
 
   @Exclude()
-  createdAt: Date
+    createdAt: Date;
 
   @Exclude()
-  updatedAt: Date
+    updatedAt: Date;
 
-  constructor( partial: Partial<Position> ) {
+  constructor(partial: Partial<Position>) {
     Object.assign(this, {
       id: partial.id,
       name: partial.name

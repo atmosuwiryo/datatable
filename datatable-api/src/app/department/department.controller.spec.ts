@@ -1,10 +1,12 @@
+/* eslint-disable max-lines-per-function */
 import { Test, TestingModule } from '@nestjs/testing';
+
 import { DepartmentController } from './department.controller';
 import { DepartmentService } from './department.service';
 import { CreateDepartmentDto } from './dto/create-department.dto';
+import { OrderDirection, PaginationRequestDto } from './dto/pagination-request.dto';
 import { UpdateDepartmentDto } from './dto/update-department.dto';
 import { DepartmentEntity } from './entities/department.entity';
-import { OrderDirection, PaginationRequestDto } from './dto/pagination-request.dto';
 
 describe('DepartmentController', () => {
   let controller: DepartmentController;
@@ -15,7 +17,7 @@ describe('DepartmentController', () => {
     name: 'Engineering',
     createdAt: now,
     updatedAt: now
-  }
+  };
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({

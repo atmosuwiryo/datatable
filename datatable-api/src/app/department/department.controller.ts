@@ -1,19 +1,20 @@
 import {
-  Controller,
-  Get,
-  Post,
   Body,
-  Patch,
-  Param,
+  Controller,
   Delete,
+  Get,
+  Param,
+  Patch,
+  Post,
   Query,
 } from '@nestjs/common';
+import { ApiCreatedResponse, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
+
 import { DepartmentService } from './department.service';
 import { CreateDepartmentDto } from './dto/create-department.dto';
-import { UpdateDepartmentDto } from './dto/update-department.dto';
-import { ApiCreatedResponse, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
-import { DepartmentEntity } from './entities/department.entity';
 import { PaginationRequestDto } from './dto/pagination-request.dto';
+import { UpdateDepartmentDto } from './dto/update-department.dto';
+import { DepartmentEntity } from './entities/department.entity';
 
 @ApiTags('Department')
 @Controller('departments')

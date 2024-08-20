@@ -1,9 +1,10 @@
-import { Component, computed, effect, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Component, computed, effect, inject, signal } from '@angular/core';
+import { ClrDatagridModule, ClrDatagridStateInterface } from '@clr/angular';
+import { debounce, firstValueFrom, interval,Subject } from 'rxjs';
+
 import { DepartmentService } from '../../services/department.service';
 import { DepartmentPagination } from './department-pagination.interface';
-import { Subject, debounce, firstValueFrom, interval } from 'rxjs';
-import { ClrDatagridModule, ClrDatagridStateInterface } from '@clr/angular';
 
 @Component({
   selector: 'app-department',
@@ -26,10 +27,10 @@ export class DepartmentComponent {
   page = 1;
   take = 10;
 
-  departmentsPagination$ = signal(this.departmentsPaginationInitialValue)
+  departmentsPagination$ = signal(this.departmentsPaginationInitialValue);
   departments$ = computed(() => this.departmentsPagination$().results);
   count$ = computed(() => this.departmentsPagination$().count);
-  lastPage$ = computed(() => Math.ceil(this.departmentsPagination$().count / this.take))
+  lastPage$ = computed(() => Math.ceil(this.departmentsPagination$().count / this.take));
 
   loading = true;
   previousState?: ClrDatagridStateInterface;
@@ -55,17 +56,17 @@ export class DepartmentComponent {
     filters?: unknown[],
     sort = 'name',
     reverse = false
-  ): Promise<void>{
+  ): Promise<void> {
     this.loading = true;
     const departmentsPagination$ = await firstValueFrom(
-        this.departmentService.getDepartment(page, take, sort, reverse, filters)
-    )
+      this.departmentService.getDepartment(page, take, sort, reverse, filters)
+    );
     this.loading = false;
     this.departmentsPagination$.set(departmentsPagination$);
   }
 
   pageChanged(page: number) {
-    this.selectedDepartments = []
+    this.selectedDepartments = [];
   }
 
   refresh(state: ClrDatagridStateInterface) {
@@ -101,10 +102,10 @@ export class DepartmentComponent {
   }
 
   onEdit(department: any) {
-    console.log(department)
+    console.log(department);
   }
 
   onDelete(department: any) {
-    console.log(department)
+    console.log(department);
   }
 }

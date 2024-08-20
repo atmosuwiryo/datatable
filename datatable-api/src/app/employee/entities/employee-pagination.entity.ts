@@ -1,4 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger";
+
 import { EmployeeEntity } from "./employee.entity";
 
 export class EmployeePagination {
@@ -6,7 +7,7 @@ export class EmployeePagination {
     description: 'Count of employees',
     example: 10
   })
-  count: number
+    count: number;
 
   @ApiProperty({
     description: 'Next page',
@@ -14,7 +15,7 @@ export class EmployeePagination {
     type: String ,
     nullable: true
   })
-  next: string | null;
+    next: string | null;
 
   @ApiProperty({
     description: 'Previous page',
@@ -22,11 +23,11 @@ export class EmployeePagination {
     type: String ,
     nullable: true
   })
-  previous: string | null;
+    previous: string | null;
 
   @ApiProperty({
     description: 'Results of employees',
     type: [EmployeeEntity]
   })
-  results: EmployeeEntity[]
+    results: EmployeeEntity[];
 }

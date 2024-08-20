@@ -1,10 +1,11 @@
 import { Injectable } from '@nestjs/common';
-import { CreatePositionDto } from './dto/create-position.dto';
-import { UpdatePositionDto } from './dto/update-position.dto';
+import { Prisma } from '@prisma/client';
+
 import { PaginationService } from '../services/pagination.service';
 import { PrismaService } from '../services/prisma.service';
+import { CreatePositionDto } from './dto/create-position.dto';
+import { UpdatePositionDto } from './dto/update-position.dto';
 import { PositionEntity } from './entities/position.entity';
-import { Prisma } from '@prisma/client';
 import { PositionPagination } from './entities/position-pagination.entity';
 
 @Injectable()
@@ -13,12 +14,12 @@ export class PositionService {
   constructor(
     private prisma: PrismaService,
     private paginationService: PaginationService<PositionEntity>
-  ){}
+  ) {}
 
   async create(createPositionDto: CreatePositionDto) {
     return this.prisma.position.create({
       data: createPositionDto
-    })
+    });
   }
 
   async findAll(page = 1, take = 10, filter): Promise<PositionPagination> {
@@ -35,12 +36,12 @@ export class PositionService {
           OR: [
             { name: { contains: filter['search'], mode: 'insensitive' } }
           ]
-        }
+        };
       }
     }
 
     if ('orderDirection' in filter) {
-      query['orderBy'] = { name : filter['orderDirection'] }
+      query['orderBy'] = { name : filter['orderDirection'] };
     }
 
     const prismaQuery = this.prisma.position.findMany(query);
@@ -58,22 +59,22 @@ export class PositionService {
   async findOne(positionWhereUniqueInput: Prisma.PositionWhereUniqueInput): Promise<PositionEntity> {
     const result = await this.prisma.position.findUnique({
       where: positionWhereUniqueInput
-    })
-    return new PositionEntity(result)
+    });
+    return new PositionEntity(result);
   }
 
   async update(where: Prisma.PositionWhereUniqueInput, updatePositionDto: UpdatePositionDto): Promise<PositionEntity> {
     const result = await this.prisma.position.update({
       where,
       data: updatePositionDto
-    })
-    return new PositionEntity(result)
+    });
+    return new PositionEntity(result);
   }
 
   async remove(where: Prisma.PositionWhereUniqueInput): Promise<PositionEntity> {
     const result = await this.prisma.position.delete({
       where
-    })
-    return new PositionEntity(result)
+    });
+    return new PositionEntity(result);
   }
 }

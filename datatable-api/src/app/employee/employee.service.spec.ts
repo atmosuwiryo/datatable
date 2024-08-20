@@ -1,10 +1,12 @@
+/* eslint-disable max-lines-per-function */
 import { Test, TestingModule } from '@nestjs/testing';
-import { EmployeeService } from './employee.service';
-import { PrismaService } from '../services/prisma.service';
+
 import { PaginationService } from '../services/pagination.service';
-import { EmployeeEntity } from './entities/employee.entity';
+import { PrismaService } from '../services/prisma.service';
 import { CreateEmployeeDto } from './dto/create-employee.dto';
 import { UpdateEmployeeDto } from './dto/update-employee.dto';
+import { EmployeeService } from './employee.service';
+import { EmployeeEntity } from './entities/employee.entity';
 
 describe('EmployeeService', () => {
   let service: EmployeeService;
@@ -31,7 +33,7 @@ describe('EmployeeService', () => {
       createdAt: now,
       updatedAt: now,
     }
-  }
+  };
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -72,7 +74,7 @@ describe('EmployeeService', () => {
   describe('create', () => {
     it('should create an employee', async () => {
       const createEmployeeDto: CreateEmployeeDto = { name: 'John Doe', departmentId: '1', positionId: '1', dateOfHire: now };
-      const createdEmployee = employee
+      const createdEmployee = employee;
 
       jest.spyOn(prisma.employee, 'create').mockResolvedValue(createdEmployee);
 
@@ -90,14 +92,14 @@ describe('EmployeeService', () => {
       const filter = { search: 'Engineering', orderBy: 'department', orderDirection: 'asc' };
       const count = 1;
 
-      const employees = [employee]
+      const employees = [employee];
       const employeeEntities = employees.map((employee) => new EmployeeEntity(employee));
       const employeePagination = {
         results: employeeEntities,
         count,
         previous: null,
         next: null
-      }
+      };
 
       jest.spyOn(prisma.employee, 'findMany').mockResolvedValue(employeeEntities);
       jest.spyOn(prisma.employee, 'count').mockResolvedValue(count);
@@ -152,7 +154,7 @@ describe('EmployeeService', () => {
     it('should update an employee', async () => {
       const employeeWhereUniqueInput = { id: '1' };
       const updateEmployeeDto: UpdateEmployeeDto = { name: 'John Updated' };
-      const updatedEmployee = employee
+      const updatedEmployee = employee;
 
       jest.spyOn(prisma.employee, 'update').mockResolvedValue(updatedEmployee);
 

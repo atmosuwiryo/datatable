@@ -1,9 +1,10 @@
-import { Component, computed, effect, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Component, computed, effect, inject, signal } from '@angular/core';
+import { ClrDatagridModule, ClrDatagridStateInterface } from '@clr/angular';
+import { debounce, firstValueFrom, interval,Subject } from 'rxjs';
+
 import { EmployeeService } from '../../services/employee.service';
 import { EmployeePagination } from './employee-pagination.interface';
-import { ClrDatagridModule, ClrDatagridStateInterface } from '@clr/angular';
-import { Subject, debounce, firstValueFrom, interval } from 'rxjs';
 
 @Component({
   selector: 'app-employee',
@@ -27,10 +28,10 @@ export class EmployeeComponent {
   page = 1;
   take = 10;
 
-  employeesPagination$ = signal(this.employeesPaginationInitialValue)
+  employeesPagination$ = signal(this.employeesPaginationInitialValue);
   employees$ = computed(() => this.employeesPagination$().results);
   count$ = computed(() => this.employeesPagination$().count);
-  lastPage$ = computed(() => Math.ceil(this.employeesPagination$().count / this.take))
+  lastPage$ = computed(() => Math.ceil(this.employeesPagination$().count / this.take));
 
   loading = true;
   previousState?: ClrDatagridStateInterface;
@@ -56,17 +57,17 @@ export class EmployeeComponent {
     filters?: unknown[],
     sort = 'name',
     reverse = false
-  ): Promise<void>{
+  ): Promise<void> {
     this.loading = true;
     const employeesPagination$ = await firstValueFrom(
-        this.employeeService.getEmployee(page, take, sort, reverse, filters)
-    )
+      this.employeeService.getEmployee(page, take, sort, reverse, filters)
+    );
     this.loading = false;
     this.employeesPagination$.set(employeesPagination$);
   }
 
   pageChanged(page: number) {
-    this.selectedEmployees = []
+    this.selectedEmployees = [];
   }
 
   refresh(state: ClrDatagridStateInterface) {
@@ -102,10 +103,10 @@ export class EmployeeComponent {
   }
 
   onEdit(employee: any) {
-    console.log(employee)
+    console.log(employee);
   }
 
   onDelete(employee: any) {
-    console.log(employee)
+    console.log(employee);
   }
 }

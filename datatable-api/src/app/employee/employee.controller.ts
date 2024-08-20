@@ -1,19 +1,20 @@
 import {
-  Controller,
-  Get,
-  Post,
   Body,
-  Patch,
-  Param,
+  Controller,
   Delete,
+  Get,
+  Param,
+  Patch,
+  Post,
   Query,
 } from '@nestjs/common';
-import { EmployeeService } from './employee.service';
+import { ApiCreatedResponse, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
+
 import { CreateEmployeeDto } from './dto/create-employee.dto';
-import { UpdateEmployeeDto } from './dto/update-employee.dto';
-import { ApiCreatedResponse, ApiOperation, ApiOkResponse, ApiTags } from '@nestjs/swagger';
-import { EmployeeEntity } from './entities/employee.entity';
 import { PaginationRequestDto } from './dto/pagination-request.dto';
+import { UpdateEmployeeDto } from './dto/update-employee.dto';
+import { EmployeeService } from './employee.service';
+import { EmployeeEntity } from './entities/employee.entity';
 import { EmployeePagination } from './entities/employee-pagination.entity';
 
 @ApiTags('Employee')
@@ -43,7 +44,7 @@ export class EmployeeController {
     type: EmployeePagination
   })
   @Get()
-  async findAll( @Query() query?: PaginationRequestDto) {
+  async findAll(@Query() query?: PaginationRequestDto) {
     const { page, take, ...filter } = query;
     return this.employeeService.findAll(page, take, filter);
   }
