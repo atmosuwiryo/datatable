@@ -1,5 +1,6 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { Employee, Department, Position } from '@prisma/client'
+import { Exclude, Transform } from 'class-transformer';
 import { randomUUID } from 'crypto';
 
 /**
@@ -75,7 +76,14 @@ export class EmployeeEntity implements Omit<Employee, 'createdAt' | 'updatedAt'>
     description: 'Date of hire',
     example: new Date().toISOString().split('T')[0],
   })
+  @Transform(({ value }) => new Date(value).toISOString().split('T')[0])
   dateOfHire: Date;
+
+  @Exclude()
+  createdAt: Date;
+
+  @Exclude()
+  updatedAt: Date;
 
   /**
    * The constructor of the EmployeeEntity
@@ -89,7 +97,7 @@ export class EmployeeEntity implements Omit<Employee, 'createdAt' | 'updatedAt'>
       department: partial.department.name,
       positionId: partial.position.id,
       position: partial.position.name,
-      dateOfHire: partial.dateOfHire.toISOString().split('T')[0]
+      dateOfHire: partial.dateOfHire
     })
   }
 }

@@ -44,7 +44,12 @@ async function bootstrap() {
 
   // Swagger
   const document = SwaggerModule.createDocument(app, swaggerConfig);
-  if (process.env.NODE_ENV !== 'production') {
+
+  // we need to check nx cli task target configuration first,
+  // since this will be overridden by env variable inside .env
+  // we don't want that
+  const node_env: string = process.env.NX_TASK_TARGET_CONFIGURATION ?? process.env.NODE_ENV
+  if (node_env !== 'production') {
     Logger.log(`Swagger is running on ${config.get('SWAGGER_PATH')}`)
     SwaggerModule.setup(config.get('SWAGGER_PATH'), app, document);
   }
