@@ -1,9 +1,10 @@
-import { Component, computed, effect, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Component, computed, effect, inject, signal } from '@angular/core';
+import { ClrDatagridModule, ClrDatagridStateInterface } from '@clr/angular';
+import { debounce, firstValueFrom, interval,Subject } from 'rxjs';
+
 import { PositionService } from '../../services/position.service';
 import { PositionPagination } from './position-pagination.interface';
-import { Subject, debounce, firstValueFrom, interval } from 'rxjs';
-import { ClrDatagridModule, ClrDatagridStateInterface } from '@clr/angular';
 
 @Component({
   selector: 'app-position',
@@ -26,10 +27,10 @@ export class PositionComponent {
   page = 1;
   take = 10;
 
-  positionsPagination$ = signal(this.positionsPaginationInitialValue)
+  positionsPagination$ = signal(this.positionsPaginationInitialValue);
   positions$ = computed(() => this.positionsPagination$().results);
   count$ = computed(() => this.positionsPagination$().count);
-  lastPage$ = computed(() => Math.ceil(this.positionsPagination$().count / this.take))
+  lastPage$ = computed(() => Math.ceil(this.positionsPagination$().count / this.take));
 
   loading = true;
   previousState?: ClrDatagridStateInterface;
@@ -56,18 +57,18 @@ export class PositionComponent {
     filters?: unknown[],
     sort = 'name',
     reverse = false
-  ): Promise<void>{
+  ): Promise<void> {
     this.loading = true;
     const positionsPagination$ = await firstValueFrom(
-        this.positionService.getPosition(page, take, sort, reverse, filters)
-    )
+      this.positionService.getPosition(page, take, sort, reverse, filters)
+    );
     this.loading = false;
     this.positionsPagination$.set(positionsPagination$);
   }
 
   pageChanged(page: number) {
     // Reset selections on page change
-    this.selectedPositions = []
+    this.selectedPositions = [];
   }
 
   refresh(state: ClrDatagridStateInterface) {
@@ -106,10 +107,10 @@ export class PositionComponent {
 
 
   onEdit(position: any) {
-    console.log(position)
+    console.log(position);
   }
 
   onDelete(position: any) {
-    console.log(position)
+    console.log(position);
   }
 }

@@ -1,10 +1,12 @@
+import '@cds/core/icon/register.js';
+
+import { DOCUMENT } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { ClarityIcons, cogIcon, moonIcon,sunIcon, vmBugIcon } from '@cds/core/icon';
 import { ClarityModule } from '@clr/angular';
+
 import { EmployeeComponent } from './components/employee/employee.component';
-import '@cds/core/icon/register.js';
-import { ClarityIcons, vmBugIcon, cogIcon, sunIcon, moonIcon } from '@cds/core/icon';
-import { DOCUMENT } from '@angular/common';
 
 ClarityIcons.addIcons(vmBugIcon, cogIcon, sunIcon, moonIcon);
 
@@ -17,16 +19,16 @@ ClarityIcons.addIcons(vmBugIcon, cogIcon, sunIcon, moonIcon);
 })
 export class AppComponent {
   title = 'datatable';
-  private document = inject(DOCUMENT)
-  theme = 'light'
+  private document = inject(DOCUMENT);
+  theme = 'light';
 
   darkMode() {
     this.theme = 'dark';
-    this.document.body.setAttribute('cds-theme', this.theme)
+    this.document.body.setAttribute('cds-theme', this.theme);
   }
 
   lightMode() {
     this.theme = 'light';
-    this.document.body.setAttribute('cds-theme', this.theme)
+    this.document.body.setAttribute('cds-theme', this.theme);
   }
 }

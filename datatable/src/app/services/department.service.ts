@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+
 import { DepartmentPagination } from '../components/department/department-pagination.interface';
 
 @Injectable({
@@ -19,11 +20,11 @@ export class DepartmentService {
     let url =  `/api/departments?page=${page}`
       + `&take=${take}`
       + `&orderBy=${sort}`
-      + `&orderDirection=${reverse? 'desc': 'asc'}`
+      + `&orderDirection=${reverse? 'desc': 'asc'}`;
     if (filters) {
       (filters as [{property: string, value: string}]).forEach((filter) => {
-        url += `&search=${filter.value}`
-      })
+        url += `&search=${filter.value}`;
+      });
     }
     return this.httpClient.get<DepartmentPagination>(url);
   }
