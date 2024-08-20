@@ -1,7 +1,9 @@
+/* eslint-disable max-lines-per-function */
 import { Test, TestingModule } from '@nestjs/testing';
-import { DepartmentService } from './department.service';
-import { PrismaService } from '../services/prisma.service';
+
 import { PaginationService } from '../services/pagination.service';
+import { PrismaService } from '../services/prisma.service';
+import { DepartmentService } from './department.service';
 import { CreateDepartmentDto } from './dto/create-department.dto';
 import { UpdateDepartmentDto } from './dto/update-department.dto';
 import { DepartmentEntity } from './entities/department.entity';
@@ -11,7 +13,7 @@ describe('DepartmentService', () => {
   let prismaService: PrismaService;
   let paginationService: PaginationService<DepartmentEntity>;
   const now = new Date();
-  const department = { id: '1', name: 'HR', createdAt: now, updatedAt: now }
+  const department = { id: '1', name: 'HR', createdAt: now, updatedAt: now };
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -77,21 +79,21 @@ describe('DepartmentService', () => {
         count,
         next: null,
         previous: null,
-      }
+      };
 
       jest.spyOn(prismaService.department, 'findMany').mockResolvedValue(departments);
       jest.spyOn(prismaService.department, 'count').mockResolvedValue(count);
       jest.spyOn(prismaService, '$transaction').mockResolvedValue([departments, count]);
       jest.spyOn(paginationService, 'paginate').mockResolvedValue(departmentPagination);
 
-     const query = {
+      const query = {
         skip: (page - 1) * take,
         take,
         where: {
           OR: [{ name: { contains: filter.search, mode: 'insensitive' } }],
         },
         orderBy: { name: filter.orderDirection },
-      }
+      };
 
       const result = await service.findAll(page, take, filter);
 

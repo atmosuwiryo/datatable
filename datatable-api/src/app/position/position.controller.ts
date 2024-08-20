@@ -1,20 +1,21 @@
 import {
-  Controller,
-  Get,
-  Post,
   Body,
-  Patch,
-  Param,
+  Controller,
   Delete,
+  Get,
+  Param,
+  Patch,
+  Post,
   Query,
 } from '@nestjs/common';
-import { PositionService } from './position.service';
-import { CreatePositionDto } from './dto/create-position.dto';
-import { UpdatePositionDto } from './dto/update-position.dto';
 import { ApiCreatedResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
+
+import { CreatePositionDto } from './dto/create-position.dto';
+import { PaginationRequestDto } from './dto/pagination-request.dto';
+import { UpdatePositionDto } from './dto/update-position.dto';
 import { PositionEntity } from './entities/position.entity';
 import { PositionPagination } from './entities/position-pagination.entity';
-import { PaginationRequestDto } from './dto/pagination-request.dto';
+import { PositionService } from './position.service';
 
 @ApiTags('Position')
 @Controller('positions')

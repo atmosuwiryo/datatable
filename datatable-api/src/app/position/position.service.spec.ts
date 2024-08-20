@@ -1,17 +1,19 @@
+/* eslint-disable max-lines-per-function */
 import { Test, TestingModule } from '@nestjs/testing';
-import { PositionService } from './position.service';
-import { PrismaService } from '../services/prisma.service';
+
 import { PaginationService } from '../services/pagination.service';
+import { PrismaService } from '../services/prisma.service';
 import { CreatePositionDto } from './dto/create-position.dto';
 import { UpdatePositionDto } from './dto/update-position.dto';
 import { PositionEntity } from './entities/position.entity';
+import { PositionService } from './position.service';
 
 describe('PositionService', () => {
   let service: PositionService;
   let prisma: PrismaService;
   let paginationService: PaginationService<PositionEntity>;
   const now = new Date();
-  const position = { id: '1', name: 'Developer', createdAt: now, updatedAt: now }
+  const position = { id: '1', name: 'Developer', createdAt: now, updatedAt: now };
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -77,7 +79,7 @@ describe('PositionService', () => {
         count,
         previous: null,
         next: null,
-      }
+      };
 
       jest.spyOn(prisma.position, 'findMany').mockResolvedValue(positions);
       jest.spyOn(prisma.position, 'count').mockResolvedValue(count);

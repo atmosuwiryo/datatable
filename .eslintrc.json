@@ -1,7 +1,7 @@
 {
   "root": true,
   "ignorePatterns": ["**/*"],
-  "plugins": ["@nx"],
+  "plugins": ["@nx", "simple-import-sort"],
   "overrides": [
     {
       "files": ["*.ts", "*.tsx", "*.js", "*.jsx"],
@@ -24,7 +24,24 @@
     {
       "files": ["*.ts", "*.tsx"],
       "extends": ["plugin:@nx/typescript"],
-      "rules": {}
+      "rules": {
+        "indent": ["error", 2],
+        "semi": ["error", "always"],
+        "spaced-comment": ["error", "always"],
+        "space-before-blocks": ["error", "always"],
+        "space-in-parens": ["error", "never"],
+        "no-trailing-spaces": ["error"],
+        "no-multiple-empty-lines": ["error"],
+        "simple-import-sort/imports": "error",
+        "simple-import-sort/exports": "error",
+        "max-lines-per-function": ["error",
+          {
+            "max": 30,
+            "skipComments": true,
+            "skipBlankLines": true
+          }
+        ]
+      }
     },
     {
       "files": ["*.js", "*.jsx"],

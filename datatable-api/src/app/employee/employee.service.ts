@@ -1,10 +1,11 @@
 import { Injectable } from '@nestjs/common';
+import { Prisma } from '@prisma/client';
+
+import { PaginationService } from '../services/pagination.service';
+import { PrismaService } from '../services/prisma.service';
 import { CreateEmployeeDto } from './dto/create-employee.dto';
 import { UpdateEmployeeDto } from './dto/update-employee.dto';
-import { PrismaService } from '../services/prisma.service';
-import { Prisma } from '@prisma/client';
 import { EmployeeEntity } from './entities/employee.entity';
-import { PaginationService } from '../services/pagination.service';
 import { EmployeePagination } from './entities/employee-pagination.entity';
 
 @Injectable()
@@ -13,16 +14,16 @@ export class EmployeeService {
   constructor(
     private prisma: PrismaService,
     private paginationService: PaginationService<EmployeeEntity>
-  ){}
+  ) {}
 
   async create(createEmployeeDto: CreateEmployeeDto) {
     return this.prisma.employee.create({
       data: createEmployeeDto
-    })
+    });
   }
 
-  async findAll(page = 1, take = 10, filter)
-  : Promise<EmployeePagination> {
+  // eslint-disable-next-line max-lines-per-function
+  async findAll(page = 1, take = 10, filter): Promise<EmployeePagination> {
     const skip = (page - 1) * take;
 
     const query = {
@@ -43,20 +44,20 @@ export class EmployeeService {
             { department: { name: { contains: filter['search'], mode: 'insensitive' } } },
             { position: { name: { contains: filter['search'], mode: 'insensitive' } } }
           ]
-        }
+        };
       }
 
       if ('orderBy' in filter) {
 
         let orderDirection = 'asc';  // init default order direction
         if ('orderDirection' in filter) {
-          orderDirection = filter['orderDirection']
+          orderDirection = filter['orderDirection'];
         }
 
         if (filter['orderBy'] === 'department' || filter['orderBy'] === 'position') {
-          query['orderBy'] = { [filter['orderBy']]: { name: orderDirection } }
+          query['orderBy'] = { [filter['orderBy']]: { name: orderDirection } };
         } else {
-          query['orderBy'] = { [filter['orderBy']]: orderDirection }
+          query['orderBy'] = { [filter['orderBy']]: orderDirection };
         }
 
       }
@@ -65,39 +66,36 @@ export class EmployeeService {
       let isQueryFilter = false;
       if ('name' in filter) {
         isQueryFilter = true;
-        queryFilter.push({ name: { contains: filter['name'], mode: 'insensitive' } })
+        queryFilter.push({ name: { contains: filter['name'], mode: 'insensitive' } });
       }
 
       if ('department' in filter) {
         isQueryFilter = true;
-        queryFilter.push({ department: { name: { contains: filter['department'], mode: 'insensitive' } } })
+        queryFilter.push({ department: { name: { contains: filter['department'], mode: 'insensitive' } } });
       }
 
       if ('position' in filter) {
         isQueryFilter = true;
-        queryFilter.push({ position: { name: { contains: filter['position'], mode: 'insensitive' } } })
+        queryFilter.push({ position: { name: { contains: filter['position'], mode: 'insensitive' } } });
       }
 
       if (isQueryFilter) {
-        query['where'] = {
-          AND: queryFilter
-        }
+        query['where'] = { AND: queryFilter };
       }
 
     }
 
-    const prismaQuery = this.prisma.employee.findMany(query)
+    const prismaQuery = this.prisma.employee.findMany(query);
 
     const [results, count] = await this.prisma.$transaction([
-      prismaQuery,
-      this.prisma.employee.count({ where: query.where }),
+      prismaQuery, this.prisma.employee.count({ where: query.where }),
     ]);
 
-    const employees = results.map( employee => {
-      return new EmployeeEntity(employee)
-    })
+    const employees = results.map(employee => {
+      return new EmployeeEntity(employee);
+    });
 
-    return this.paginationService.paginate(count, take, employees)
+    return this.paginationService.paginate(count, take, employees);
   }
 
   async findOne(employeeWhereUniqueInput: Prisma.EmployeeWhereUniqueInput): Promise<EmployeeEntity> {
@@ -107,8 +105,8 @@ export class EmployeeService {
         department: true,
         position: true
       }
-    })
-    return new EmployeeEntity(result)
+    });
+    return new EmployeeEntity(result);
   }
 
   async update(where: Prisma.EmployeeWhereUniqueInput, updateEmployeeDto: UpdateEmployeeDto): Promise<EmployeeEntity> {
@@ -119,8 +117,8 @@ export class EmployeeService {
         department: true,
         position: true
       }
-    })
-    return new EmployeeEntity(result)
+    });
+    return new EmployeeEntity(result);
   }
 
   async remove(where: Prisma.EmployeeWhereUniqueInput): Promise<EmployeeEntity> {
@@ -130,8 +128,8 @@ export class EmployeeService {
         department: true,
         position: true
       }
-    })
+    });
 
-    return new EmployeeEntity(result)
+    return new EmployeeEntity(result);
   }
 }

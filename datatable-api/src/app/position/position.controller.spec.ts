@@ -1,11 +1,13 @@
+/* eslint-disable max-lines-per-function */
 import { Test, TestingModule } from '@nestjs/testing';
-import { PositionController } from './position.controller';
-import { PositionService } from './position.service';
+
 import { CreatePositionDto } from './dto/create-position.dto';
+import { PaginationRequestDto } from './dto/pagination-request.dto';
 import { UpdatePositionDto } from './dto/update-position.dto';
 import { PositionEntity } from './entities/position.entity';
 import { PositionPagination } from './entities/position-pagination.entity';
-import { PaginationRequestDto } from './dto/pagination-request.dto';
+import { PositionController } from './position.controller';
+import { PositionService } from './position.service';
 
 describe('PositionController', () => {
   let controller: PositionController;
@@ -16,7 +18,7 @@ describe('PositionController', () => {
     name: 'Software Engineer',
     createdAt: now,
     updatedAt: now,
-  }
+  };
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({

@@ -12,7 +12,7 @@ export class DepartmentEntity implements Omit<Department, 'createdAt' | 'updated
     description: 'Id of the department',
     example: '611fee75-eb53-4b01-adf4-cd2d9be0c769'
   })
-  id: string
+    id: string;
 
   /**
    * The name of the department
@@ -22,15 +22,15 @@ export class DepartmentEntity implements Omit<Department, 'createdAt' | 'updated
     description: 'Name of the department',
     example: 'HR'
   })
-  name: string
+    name: string;
 
   @Exclude()
-  createdAt: Date
+    createdAt: Date;
 
   @Exclude()
-  updatedAt: Date
+    updatedAt: Date;
 
-  constructor( partial: Partial<Department> ) {
+  constructor(partial: Partial<Department>) {
     Object.assign(this, {
       id: partial.id,
       name: partial.name

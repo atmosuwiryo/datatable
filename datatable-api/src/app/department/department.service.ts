@@ -1,11 +1,12 @@
 import { Injectable } from '@nestjs/common';
-import { CreateDepartmentDto } from './dto/create-department.dto';
-import { UpdateDepartmentDto } from './dto/update-department.dto';
+import { Prisma } from '@prisma/client';
+
 import { PaginationService } from '../services/pagination.service';
 import { PrismaService } from '../services/prisma.service';
+import { CreateDepartmentDto } from './dto/create-department.dto';
+import { UpdateDepartmentDto } from './dto/update-department.dto';
 import { DepartmentEntity } from './entities/department.entity';
 import { DepartmentPagination } from './entities/department-pagination.entity';
-import { Prisma } from '@prisma/client';
 
 @Injectable()
 export class DepartmentService {
@@ -19,7 +20,7 @@ export class DepartmentService {
   async create(createDepartmentDto: CreateDepartmentDto) {
     return this.prisma.department.create({
       data: createDepartmentDto
-    })
+    });
   }
 
   async findAll(page = 1, take = 10, filter): Promise<DepartmentPagination> {
@@ -36,12 +37,12 @@ export class DepartmentService {
           OR: [
             { name: { contains: filter['search'], mode: 'insensitive' } }
           ],
-        }
+        };
       }
     }
 
     if ('orderDirection' in filter) {
-      query['orderBy'] = { name : filter['orderDirection'] }
+      query['orderBy'] = { name : filter['orderDirection'] };
     }
 
     const prismaQuery = this.prisma.department.findMany(query);
@@ -59,22 +60,22 @@ export class DepartmentService {
   async findOne(departmentWhereUniqueInput: Prisma.DepartmentWhereUniqueInput): Promise<DepartmentEntity> {
     const result = await this.prisma.department.findUnique({
       where: departmentWhereUniqueInput
-    })
-    return new DepartmentEntity(result)
+    });
+    return new DepartmentEntity(result);
   }
 
   async update(where: Prisma.DepartmentWhereUniqueInput, updateDepartmentDto: UpdateDepartmentDto): Promise<DepartmentEntity> {
     const result = await this.prisma.department.update({
       where,
       data: updateDepartmentDto
-    })
-    return new DepartmentEntity(result)
+    });
+    return new DepartmentEntity(result);
   }
 
   async remove(where: Prisma.DepartmentWhereUniqueInput): Promise<DepartmentEntity> {
     const result = await this.prisma.department.delete({
       where
-    })
-    return new DepartmentEntity(result)
+    });
+    return new DepartmentEntity(result);
   }
 }

@@ -1,10 +1,12 @@
+/* eslint-disable max-lines-per-function */
 import { Test, TestingModule } from '@nestjs/testing';
+
+import { CreateEmployeeDto } from './dto/create-employee.dto';
+import { PaginationRequestDto } from './dto/pagination-request.dto';
+import { UpdateEmployeeDto } from './dto/update-employee.dto';
 import { EmployeeController } from './employee.controller';
 import { EmployeeService } from './employee.service';
-import { CreateEmployeeDto } from './dto/create-employee.dto';
-import { UpdateEmployeeDto } from './dto/update-employee.dto';
 import { EmployeeEntity } from './entities/employee.entity';
-import { PaginationRequestDto } from './dto/pagination-request.dto';
 import { EmployeePagination } from './entities/employee-pagination.entity';
 
 describe('EmployeeController', () => {
@@ -31,7 +33,7 @@ describe('EmployeeController', () => {
       createdAt: now,
       updatedAt: now,
     }
-  }
+  };
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({

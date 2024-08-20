@@ -1,8 +1,8 @@
 import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
 import { Employee } from "@prisma/client";
-import { Transform } from 'class-transformer'
+import { Transform } from 'class-transformer';
+import { IsDateString, IsString, IsUUID } from 'class-validator';
 import { randomUUID } from "crypto";
-import { IsDateString, IsString, IsUUID } from 'class-validator'
 
 export class CreateEmployeeDto implements Omit<Employee, 'id' | 'createdAt' | 'updatedAt'> {
   @ApiProperty({
@@ -10,21 +10,21 @@ export class CreateEmployeeDto implements Omit<Employee, 'id' | 'createdAt' | 'u
     example: 'John Doe'
   })
   @IsString()
-  name: string;
+    name: string;
 
   @ApiProperty({
     description: 'Id of the department',
     example: randomUUID()
   })
   @IsUUID()
-  departmentId: string;
+    departmentId: string;
 
   @ApiProperty({
     description: 'Id of the position',
     example: randomUUID()
   })
   @IsUUID()
-  positionId: string;
+    positionId: string;
 
   @ApiPropertyOptional({
     description: 'Date of hire',
@@ -32,6 +32,6 @@ export class CreateEmployeeDto implements Omit<Employee, 'id' | 'createdAt' | 'u
   })
   @IsDateString()
   @Transform(({ value }) => new Date(value).toISOString().split('T')[0])
-  dateOfHire: Date;
+    dateOfHire: Date;
 
 }

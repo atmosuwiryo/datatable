@@ -1,5 +1,5 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import { Employee, Department, Position } from '@prisma/client'
+import { Department, Employee, Position } from '@prisma/client';
 import { Exclude, Transform } from 'class-transformer';
 import { randomUUID } from 'crypto';
 
@@ -16,7 +16,7 @@ export class EmployeeEntity implements Omit<Employee, 'createdAt' | 'updatedAt'>
     description: 'Id of the employee',
     example: randomUUID()
   })
-  id: string;
+    id: string;
 
   /**
    * The name of the employee
@@ -26,7 +26,7 @@ export class EmployeeEntity implements Omit<Employee, 'createdAt' | 'updatedAt'>
     description: 'Name of the employee',
     example: 'John Doe'
   })
-  name: string;
+    name: string;
 
   /**
    * The id of the department
@@ -36,7 +36,7 @@ export class EmployeeEntity implements Omit<Employee, 'createdAt' | 'updatedAt'>
     description: 'Id of the department',
     example: randomUUID()
   })
-  departmentId: string;
+    departmentId: string;
 
   /**
    * The department of the employee
@@ -46,7 +46,7 @@ export class EmployeeEntity implements Omit<Employee, 'createdAt' | 'updatedAt'>
     description: 'Name of the department',
     example: 'Engineering'
   })
-  department: string;
+    department: string;
 
   /**
    * The id of the position
@@ -56,7 +56,7 @@ export class EmployeeEntity implements Omit<Employee, 'createdAt' | 'updatedAt'>
     description: 'Id of the position',
     example: randomUUID()
   })
-  positionId: string;
+    positionId: string;
 
   /**
    * The position of the employee
@@ -66,7 +66,7 @@ export class EmployeeEntity implements Omit<Employee, 'createdAt' | 'updatedAt'>
     description: 'Name of the position',
     example: 'Software Engineer'
   })
-  position: string;
+    position: string;
 
   /**
    * The date of hire of the employee
@@ -77,19 +77,19 @@ export class EmployeeEntity implements Omit<Employee, 'createdAt' | 'updatedAt'>
     example: new Date().toISOString().split('T')[0],
   })
   @Transform(({ value }) => new Date(value).toISOString().split('T')[0])
-  dateOfHire: Date;
+    dateOfHire: Date;
 
   @Exclude()
-  createdAt: Date;
+    createdAt: Date;
 
   @Exclude()
-  updatedAt: Date;
+    updatedAt: Date;
 
   /**
    * The constructor of the EmployeeEntity
    * @param partial
    */
-  constructor( partial: Partial<Employee> & {department: Department} & {position: Position} ) {
+  constructor(partial: Partial<Employee> & {department: Department} & {position: Position}) {
     Object.assign(this,  {
       id: partial.id,
       name: partial.name,
@@ -98,7 +98,7 @@ export class EmployeeEntity implements Omit<Employee, 'createdAt' | 'updatedAt'>
       positionId: partial.position.id,
       position: partial.position.name,
       dateOfHire: partial.dateOfHire
-    })
+    });
   }
 }
 
