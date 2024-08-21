@@ -53,7 +53,15 @@
       "env": {
         "jest": true
       },
-      "rules": {}
+      "rules": {
+          "max-lines-per-function": ["off",
+          {
+            "max": 30,
+            "skipComments": true,
+            "skipBlankLines": true
+          }
+        ]
+      }
     }
   ]
 }

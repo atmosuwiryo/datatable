@@ -1,4 +1,3 @@
-/* eslint-disable max-lines-per-function */
 import { Test, TestingModule } from '@nestjs/testing';
 
 import { CreateEmployeeDto } from './dto/create-employee.dto';
