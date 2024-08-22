@@ -25,7 +25,7 @@ describe('PositionService', () => {
               create: jest.fn(),
               findMany: jest.fn(),
               count: jest.fn(),
-              findUnique: jest.fn(),
+              findUniqueOrThrow: jest.fn(),
               update: jest.fn(),
               delete: jest.fn(),
             },
@@ -106,11 +106,11 @@ describe('PositionService', () => {
     it('should return a single position by id', async () => {
       const positionWhereUniqueInput = { id: '1' };
 
-      jest.spyOn(prisma.position, 'findUnique').mockResolvedValue(position);
+      jest.spyOn(prisma.position, 'findUniqueOrThrow').mockResolvedValue(position);
 
       const result = await service.findOne(positionWhereUniqueInput);
 
-      expect(prisma.position.findUnique).toHaveBeenCalledWith({
+      expect(prisma.position.findUniqueOrThrow).toHaveBeenCalledWith({
         where: positionWhereUniqueInput
       });
       expect(result).toEqual(new PositionEntity(position));

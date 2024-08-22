@@ -44,10 +44,16 @@ describe('EmployeeService', () => {
             employee: {
               create: jest.fn(),
               findMany: jest.fn(),
-              findUnique: jest.fn(),
+              findUniqueOrThrow: jest.fn(),
               update: jest.fn(),
               delete: jest.fn(),
               count: jest.fn(),
+            },
+            department: {
+              findUniqueOrThrow: jest.fn(),
+            },
+            position: {
+              findUniqueOrThrow: jest.fn(),
             },
             $transaction: jest.fn(),
           },
@@ -134,11 +140,11 @@ describe('EmployeeService', () => {
     it('should return a single employee by unique input', async () => {
       const employeeWhereUniqueInput = { id: '1' };
 
-      jest.spyOn(prisma.employee, 'findUnique').mockResolvedValue(employee);
+      jest.spyOn(prisma.employee, 'findUniqueOrThrow').mockResolvedValue(employee);
 
       const result = await service.findOne(employeeWhereUniqueInput);
 
-      expect(prisma.employee.findUnique).toHaveBeenCalledWith({
+      expect(prisma.employee.findUniqueOrThrow).toHaveBeenCalledWith({
         where: employeeWhereUniqueInput,
         include: {
           department: true,

@@ -24,7 +24,7 @@ describe('DepartmentService', () => {
             department: {
               create: jest.fn(),
               findMany: jest.fn(),
-              findUnique: jest.fn(),
+              findUniqueOrThrow: jest.fn(),
               update: jest.fn(),
               delete: jest.fn(),
               count: jest.fn(),
@@ -106,11 +106,11 @@ describe('DepartmentService', () => {
     it('should return a single department entity', async () => {
       const departmentWhereUniqueInput = { id: '1' };
 
-      jest.spyOn(prismaService.department, 'findUnique').mockResolvedValue(department);
+      jest.spyOn(prismaService.department, 'findUniqueOrThrow').mockResolvedValue(department);
 
       const result = await service.findOne(departmentWhereUniqueInput);
 
-      expect(prismaService.department.findUnique).toHaveBeenCalledWith({
+      expect(prismaService.department.findUniqueOrThrow).toHaveBeenCalledWith({
         where: departmentWhereUniqueInput,
       });
       expect(result).toEqual(new DepartmentEntity(department));
