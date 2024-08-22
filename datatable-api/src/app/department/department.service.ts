@@ -58,7 +58,7 @@ export class DepartmentService {
   }
 
   async findOne(departmentWhereUniqueInput: Prisma.DepartmentWhereUniqueInput): Promise<DepartmentEntity> {
-    const result = await this.prisma.department.findUnique({
+    const result = await this.prisma.department.findUniqueOrThrow({
       where: departmentWhereUniqueInput
     });
     return new DepartmentEntity(result);

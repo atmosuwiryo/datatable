@@ -57,7 +57,7 @@ export class PositionService {
   }
 
   async findOne(positionWhereUniqueInput: Prisma.PositionWhereUniqueInput): Promise<PositionEntity> {
-    const result = await this.prisma.position.findUnique({
+    const result = await this.prisma.position.findUniqueOrThrow({
       where: positionWhereUniqueInput
     });
     return new PositionEntity(result);
