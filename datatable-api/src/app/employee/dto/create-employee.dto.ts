@@ -31,7 +31,7 @@ export class CreateEmployeeDto implements Omit<Employee, 'id' | 'createdAt' | 'u
     example: new Date().toISOString().split('T')[0],
   })
   @IsDateString()
-  @Transform(({ value }) => new Date(value).toISOString().split('T')[0])
+  @Transform(({ value }) => new Date(value).toISOString())
     dateOfHire: Date;
 
 }

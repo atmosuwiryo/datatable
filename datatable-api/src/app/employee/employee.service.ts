@@ -17,6 +17,19 @@ export class EmployeeService {
   ) {}
 
   async create(createEmployeeDto: CreateEmployeeDto) {
+    // check if department and position exists
+    await this.prisma.department.findUniqueOrThrow({
+      where: {
+        id: createEmployeeDto.departmentId
+      }
+    });
+    await this.prisma.position.findUniqueOrThrow({
+      where: {
+        id: createEmployeeDto.positionId
+      }
+    });
+
+    // create employee if all data is valid
     return this.prisma.employee.create({
       data: createEmployeeDto
     });
@@ -99,7 +112,7 @@ export class EmployeeService {
   }
 
   async findOne(employeeWhereUniqueInput: Prisma.EmployeeWhereUniqueInput): Promise<EmployeeEntity> {
-    const result = await this.prisma.employee.findUnique({
+    const result = await this.prisma.employee.findUniqueOrThrow({
       where: employeeWhereUniqueInput,
       include: {
         department: true,
@@ -110,6 +123,12 @@ export class EmployeeService {
   }
 
   async update(where: Prisma.EmployeeWhereUniqueInput, updateEmployeeDto: UpdateEmployeeDto): Promise<EmployeeEntity> {
+    await this.prisma.employee.findUniqueOrThrow({
+      where: {
+        id: where.id
+      }
+    });
+
     const result = await this.prisma.employee.update({
       where: where,
       data: updateEmployeeDto,
@@ -122,6 +141,11 @@ export class EmployeeService {
   }
 
   async remove(where: Prisma.EmployeeWhereUniqueInput): Promise<EmployeeEntity> {
+    await this.prisma.employee.findUniqueOrThrow({
+      where: {
+        id: where.id
+      }
+    });
     const result = await this.prisma.employee.delete({
       where: where,
       include: {

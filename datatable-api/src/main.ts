@@ -5,7 +5,7 @@
 
 import { Logger, ValidationPipe } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { NestFactory } from '@nestjs/core';
+import { HttpAdapterHost, NestFactory } from '@nestjs/core';
 import {
   FastifyAdapter,
   NestFastifyApplication,
@@ -14,7 +14,9 @@ import { SwaggerModule } from '@nestjs/swagger';
 
 import { AppModule } from './app/app.module';
 import { swaggerConfig } from './config/swagger.config';
+import { PrismaClientExceptionFilter } from './filters/prisma-client-exception.filter';
 
+// eslint-disable-next-line max-lines-per-function
 async function bootstrap() {
   const app = await NestFactory.create<NestFastifyApplication>(
     AppModule,
@@ -45,6 +47,10 @@ async function bootstrap() {
   // Swagger
   const document = SwaggerModule.createDocument(app, swaggerConfig);
 
+  // PrismaClient Exception Filter
+  const { httpAdapter } = app.get(HttpAdapterHost);
+  app.useGlobalFilters(new PrismaClientExceptionFilter(httpAdapter));
+
   // we need to check nx cli task target configuration first,
   // since this will be overridden by env variable inside .env
   // we don't want that
@@ -55,7 +61,6 @@ async function bootstrap() {
   }
 
   await app.listen(port, '0.0.0.0');
-  // await app.listen(port);
   Logger.log(
     `🚀 Application is running on: http://localhost:${port}/${globalPrefix}`
   );
