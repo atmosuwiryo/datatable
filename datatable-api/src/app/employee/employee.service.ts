@@ -123,12 +123,6 @@ export class EmployeeService {
   }
 
   async update(where: Prisma.EmployeeWhereUniqueInput, updateEmployeeDto: UpdateEmployeeDto): Promise<EmployeeEntity> {
-    await this.prisma.employee.findUniqueOrThrow({
-      where: {
-        id: where.id
-      }
-    });
-
     const result = await this.prisma.employee.update({
       where: where,
       data: updateEmployeeDto,
