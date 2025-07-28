@@ -8,11 +8,14 @@
     "prisma:generate": "npx prisma generate --schema datatable-api/prisma/schema.prisma",
     "prisma:reset": "npx prisma migrate reset --schema datatable-api/prisma/schema.prisma",
     "prisma:reset:local": "npm run env:init && npm run prisma:reset",
-    "build:datatable-api": "npm run env:init && npm run prisma:generate && npx nx run datatable-api:build:prod",
+    "build:datatable-api": "npm run prisma:generate && npx nx run datatable-api:build:prod",
+    "build:datatable-api:local": "npm run env:init && npm run build:datatable-api",
     "build:datatable": "npx nx run datatable:build:prod",
     "build": "npm run build:datatable-api && npm run build:datatable",
     "serve:datatable-api": "npm run prisma:reset && npx nx serve datatable-api:",
+    "serve:datatable-api:local": "npm run env:init && npm run prisma:reset && npx nx serve datatable-api:",
     "serve:datatable": "npx nx serve datatable"
+    "serve:datatable:local": "npm run env:init && npx nx serve datatable"
   },
   "prisma": {
     "seed": "ts-node --compiler-options {\"module\":\"CommonJS\"} prisma/seed.ts"
