@@ -2,7 +2,17 @@
   "name": "@waiki-monorepo/source",
   "version": "0.0.0",
   "license": "MIT",
-  "scripts": {},
+  "scripts": {
+    "build:workspace": "nx run workspace:build",
+    "env:init": "cp datatable-api/env.example .env",
+    "prisma:generate": "npx prisma generate --schema datatable-api/prisma/schema.prisma",
+    "prisma:reset": "npm run env:init && npx prisma migrate reset --schema datatable-api/prisma/schema.prisma",
+    "build:datatable-api": "npm run env:init && npm run prisma:generate && npx nx run datatable-api:build",
+    "build:datatable": "npx nx run datatable:build",
+    "build": "npm run build:datatable-api && npm run build:datatable",
+    "serve:datatable-api": "npm run prisma:reset && npx nx serve datatable-api:",
+    "serve:datatable": "npx nx serve datatable"
+  },
   "prisma": {
     "seed": "ts-node --compiler-options {\"module\":\"CommonJS\"} prisma/seed.ts"
   },
