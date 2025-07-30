@@ -12,8 +12,8 @@
     "build:datatable-api:local": "npm run env:init && npm run build:datatable-api",
     "build:datatable": "npx nx run datatable:build:prod",
     "build": "npm run build:datatable-api && npm run build:datatable",
-    "serve:datatable-api": "npm run prisma:reset && npx nx serve datatable-api:",
-    "serve:datatable-api:local": "npm run env:init && npm run prisma:reset && npx nx serve datatable-api:",
+    "serve:datatable-api": "npm run prisma:reset && npx nx serve datatable-api",
+    "serve:datatable-api:local": "npm run env:init && npm run prisma:reset && npx nx serve datatable-api",
     "serve:datatable": "npx nx serve datatable",
     "serve:datatable:local": "npm run env:init && npx nx serve datatable"
   },
