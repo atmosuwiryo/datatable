@@ -12,5 +12,6 @@ WORKDIR /app
 COPY --from=builder /app/dist/datatable-api .
 COPY package.json pnpm-lock.yaml* ./
 RUN npm install -g pnpm && pnpm install --frozen-lockfile --prod
+RUN npm run prisma:generate
 EXPOSE 3000
 CMD ["node", "main.js"]
