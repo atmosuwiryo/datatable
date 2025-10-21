@@ -1,8 +1,8 @@
-import { Position } from "@prisma/client";
+import { PositionType } from "./position.model";
 
 export interface PositionPagination {
   count: number;
   next: string | null;
   previous: string | null;
-  results: (Omit<Position, 'createdAt' | 'updatedAt'>)[] | []
+  results: PositionType[];
 }

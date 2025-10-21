@@ -1,0 +1,30 @@
+
+<clr-datagrid
+  (clrDgRefresh)="refresh.emit($event)"
+  [clrDgLoading]="loading"
+  >
+  <clr-dg-column [clrDgField]="'name'">Department Name</clr-dg-column>
+
+  @for (department of departments; track department) {
+    <clr-dg-row [clrDgItem]="department">
+      <clr-dg-action-overflow>
+        <button class="action-item" (click)="onEdit(department)">Edit</button>
+        <button class="action-item" (click)="onDelete(department)">Delete</button>
+      </clr-dg-action-overflow>
+      <clr-dg-cell>{{ department.name }}</clr-dg-cell>
+    </clr-dg-row>
+  }
+
+  <clr-dg-footer>
+    <clr-dg-pagination
+      #pagination
+      [clrDgTotalItems]="total"
+      >
+      <clr-dg-page-size [clrPageSizeOptions]="[10, 20, 50, 100]">
+        Departments per page
+      </clr-dg-page-size>
+      {{ pagination.firstItem + 1 }} - {{ pagination.lastItem + 1 }} of
+      {{ pagination.totalItems }} departments
+    </clr-dg-pagination>
+  </clr-dg-footer>
+</clr-datagrid>

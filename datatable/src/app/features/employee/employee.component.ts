@@ -1,18 +1,18 @@
 import { CommonModule } from '@angular/common';
-import { Component, computed, effect, inject, signal } from '@angular/core';
-import { ClrDatagridModule, ClrDatagridStateInterface } from '@clr/angular';
-import { debounce, firstValueFrom, interval,Subject } from 'rxjs';
+import { Component, computed, inject, signal } from '@angular/core';
+import { ClrDatagridStateInterface } from '@clr/angular';
+import { debounce, firstValueFrom, interval, Subject } from 'rxjs';
 
-import { EmployeeService } from '../../services/employee.service';
-import { EmployeePagination } from './employee-pagination.interface';
+import { EmployeeService } from '../../core/services/employee.service';
+import { EmployeePagination } from '../../models/employee-pagination.interface';
+import { EmployeeListComponent } from './employee-list.component';
 
 @Component({
   selector: 'app-employee',
   standalone: true,
-  imports: [CommonModule, ClrDatagridModule],
+  imports: [CommonModule, EmployeeListComponent],
   templateUrl: './employee.component.html',
   styleUrl: './employee.component.css',
-  providers: [EmployeeService]
 })
 export class EmployeeComponent {
   private employeeService = inject(EmployeeService);
@@ -73,7 +73,7 @@ export class EmployeeComponent {
   refresh(state: ClrDatagridStateInterface) {
     // Check is filter changed by comparing 2 filters arrays,
     // here we use JSON.stringify to compare 2 objects
-    const isFilterChanged = JSON.stringify(state.filters) !== JSON.stringify(this.previousState?.filters) ? true:false;
+    const isFilterChanged = JSON.stringify(state.filters) !== JSON.stringify(this.previousState?.filters) ? true : false;
 
     if (state.page?.current) {
       this.page = state.page.current;

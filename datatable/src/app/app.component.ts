@@ -1,18 +1,15 @@
 import '@cds/core/icon/register.js';
 
-import { DOCUMENT } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { Component, DOCUMENT, inject } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { ClarityIcons, cogIcon, moonIcon,sunIcon, vmBugIcon } from '@cds/core/icon';
+import { ClarityIcons, cogIcon, moonIcon, sunIcon, vmBugIcon } from '@cds/core/icon';
 import { ClarityModule } from '@clr/angular';
-
-import { EmployeeComponent } from './components/employee/employee.component';
 
 ClarityIcons.addIcons(vmBugIcon, cogIcon, sunIcon, moonIcon);
 
 @Component({
   standalone: true,
-  imports: [RouterModule, ClarityModule, EmployeeComponent],
+  imports: [RouterModule, ClarityModule],
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
