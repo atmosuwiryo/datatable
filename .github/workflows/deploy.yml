@@ -1,30 +1,69 @@
-name: Build and Push Docker Image
+name: CI - Build and Deploy datatable-api
 
 on:
   push:
     branches:
-      - main # Or your default branch
+      - main
 
 jobs:
-  build-and-push:
+  build-and-deploy:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+        with:
+          fetch-depth: 0 # Required for nx affected
 
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v2
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Set Nx SHAs
+        uses: nrwl/nx-set-shas@v3
+
+      - name: Check for affected datatable-api
+        id: check_affected
+        run: |
+          AFFECTED_APPS=$(npx nx affected:apps --plain)
+          echo "Affected apps: $AFFECTED_APPS"
+          if [[ "$AFFECTED_APPS" == *"datatable-api"* ]]; then
+            echo "datatable-api is affected."
+            echo "datatable_api_affected=true" >> $GITHUB_OUTPUT
+          else
+            echo "datatable-api is not affected."
+            echo "datatable_api_affected=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Build datatable-api
+        if: steps.check_affected.outputs.datatable_api_affected == 'true'
+        run: npx nx build datatable-api --prod
 
       - name: Login to Docker Hub
+        if: steps.check_affected.outputs.datatable_api_affected == 'true'
         uses: docker/login-action@v2
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
+      - name: Set up Docker Buildx
+        if: steps.check_affected.outputs.datatable_api_affected == 'true'
+        uses: docker/setup-buildx-action@v2
+
       - name: Build and push datatable-api
+        if: steps.check_affected.outputs.datatable_api_affected == 'true'
         uses: docker/build-push-action@v4
         with:
           context: .
-          file: ./datatable-api/Dockerfile
+          file: ./datatable-api/Dockerfile.ci
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/datatable-api:latest
