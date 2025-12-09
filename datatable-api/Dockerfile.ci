@@ -5,17 +5,14 @@ WORKDIR /app
 # Copy the pre-built application
 COPY dist/datatable-api .
 
-# Copy Prisma schema and generated client
-COPY datatable-api/prisma ./datatable-api/prisma
-
 # Copy production dependencies and install them
 COPY package.json pnpm-lock.yaml* ./
 RUN npm install -g pnpm
 RUN pnpm install --frozen-lockfile --prod
 
 # Copy Prisma schema and generated client
-# COPY datatable-api/prisma ./datatable-api/prisma
-# COPY node_modules/@prisma/client node_modules/@prisma/client
+COPY datatable-api/prisma ./datatable-api/prisma
+RUN npx prisma generate
 
 # Copy and setup entrypoint
 COPY datatable-api/entrypoint.sh .
