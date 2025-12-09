@@ -34,9 +34,11 @@ jobs:
       - name: Check for affected datatable
         id: check_affected
         run: |
-          AFFECTED_APPS=$(npx nx affected:apps --plain)
-          echo "Affected apps: $AFFECTED_APPS"
-          if [[ "$AFFECTED_APPS" == *"datatable"* ]]; then
+          AFFECTED_JSON=$(npx nx print-affected)
+          echo "Affected projects: $AFFECTED_JSON"
+          AFFECTED_APPS=$(echo "$AFFECTED_JSON" | jq -r '.projects | join(" ")')
+
+          if [[ " $AFFECTED_APPS " == *" datatable "* ]]; then
             echo "datatable is affected."
             echo "datatable_affected=true" >> $GITHUB_OUTPUT
           else
