@@ -103,7 +103,10 @@
   },
   "pnpm": {
     "onlyBuiltDependencies": [
-      "@prisma/client"
+      "@nestjs/core",
+      "@prisma/client",
+      "@prisma/engines",
+      "prisma"
     ]
   }
 }
