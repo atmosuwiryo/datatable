@@ -33,10 +33,10 @@ jobs:
         id: setSHAs
         uses: nrwl/nx-set-shas@v4
 
-      - run: |
-        echo "BASE: ${{ steps.setSHAs.outputs.base }}"
-        echo "HEAD: ${{ steps.setSHAs.outputs.head }}"
-
+      # - run: |
+      #   echo "BASE: ${{ steps.setSHAs.outputs.base }}"
+      #   echo "HEAD: ${{ steps.setSHAs.outputs.head }}"
+      #
       - name: Check for affected datatable-api
         id: check_affected
         run: |
