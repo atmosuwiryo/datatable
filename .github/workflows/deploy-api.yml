@@ -52,7 +52,9 @@ jobs:
 
       - name: Build datatable-api
         if: steps.check_affected.outputs.datatable_api_affected == 'true'
-        run: npx nx build datatable-api --prod
+        run: |
+          npx prisma migrate generate
+          npx nx build datatable-api --prod
 
       - name: Login to Docker Hub
         if: steps.check_affected.outputs.datatable_api_affected == 'true'
