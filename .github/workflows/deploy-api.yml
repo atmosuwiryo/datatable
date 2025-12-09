@@ -53,7 +53,7 @@ jobs:
       - name: Build datatable-api
         if: steps.check_affected.outputs.datatable_api_affected == 'true'
         run: |
-          npx prisma generate --schema datatable-api/prisma/schema.prisma                                                  [16:03:07]
+          npm run prisma:generate
           npx nx build datatable-api --prod
 
       - name: Login to Docker Hub
