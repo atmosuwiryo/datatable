@@ -17,11 +17,7 @@
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
-    "paths": {
-      "#prisma/*": [
-        "datatable-api/prisma/*"
-      ]
-    }
+    "paths": {}
   },
   "exclude": [
     "node_modules",
