@@ -7,8 +7,10 @@ COPY dist/datatable-api .
 
 # Copy production dependencies and install them
 COPY package.json pnpm-lock.yaml* ./
-RUN pnpm approve-builds @nestjs/core@10.3.9 @prisma/client@5.15.1 @prisma/engines@5.15.1 prisma@5.15.1
-RUN npm install -g pnpm && pnpm install --frozen-lockfile --prod
+RUN |
+  npm install -g pnpm
+  pnpm approve-builds @nestjs/core@10.3.9 @prisma/client@5.15.1 @prisma/engines@5.15.1 prisma@5.15.1
+  pnpm install --frozen-lockfile --prod
 
 # Copy Prisma schema and generate client
 COPY datatable-api/prisma ./datatable-api/prisma
