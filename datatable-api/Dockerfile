@@ -13,7 +13,6 @@ COPY --from=builder /app/dist/datatable-api .
 COPY --from=builder /app/datatable-api/prisma ./datatable-api/prisma
 COPY package.json pnpm-lock.yaml* ./
 RUN npm install -g pnpm && pnpm install --frozen-lockfile --prod
-RUN pnpm approve-builds @nestjs/core@10.3.9 @prisma/client@5.15.1 @prisma/engines@5.15.1 prisma@5.15.1
 RUN npm run prisma:generate
 COPY datatable-api/entrypoint.sh .
 RUN chmod +x ./entrypoint.sh
