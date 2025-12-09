@@ -3,7 +3,7 @@ name: CI - Build and Deploy datatable-api
 on:
   push:
     branches:
-      - main
+      - test_dockerhub
 
 jobs:
   build-and-deploy:
