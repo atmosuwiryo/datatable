@@ -1,6 +1,7 @@
 # Stage 1: Runner
 FROM node:18-alpine
 WORKDIR /app
+RUN apk add --no-cache libc6-compat openssl
 
 # Copy the pre-built application
 COPY dist/datatable-api .
