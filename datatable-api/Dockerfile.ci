@@ -12,8 +12,9 @@ COPY package.json pnpm-lock.yaml* ./
 COPY datatable-api/prisma ./datatable-api/prisma
 
 RUN npm install -g pnpm
-RUN pnpm install --frozen-lockfile --prod
-RUN pnpm install prisma
+# RUN pnpm install --frozen-lockfile --prod
+RUN pnpm install --frozen-lockfile
+# RUN pnpm install prisma
 
 RUN npm run prisma:generate
 
