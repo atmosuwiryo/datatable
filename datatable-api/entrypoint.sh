@@ -6,7 +6,7 @@ set -e
 # npx prisma migrate deploy --schema datatable-api/prisma/schema.prisma
 
 echo "Running database reset & seeder..."
-npx prisma migrate reset --schema datatable-api/prisma/schema.prisma
+npm run prisma:reset
 
 echo "Starting the application..."
 exec "$@"
