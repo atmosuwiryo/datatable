@@ -16,6 +16,7 @@ RUN pnpm install --frozen-lockfile --prod
 RUN pnpm install prisma
 
 RUN npm run prisma:generate
+RUN npm run prisma:reset
 
 # Copy and setup entrypoint
 COPY datatable-api/entrypoint.sh .
