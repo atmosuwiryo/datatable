@@ -1,4 +1,4 @@
-name: CI - Build and Deploy datatable-api
+name: CI - Build and Deploy datatable projects
 
 on:
   push:

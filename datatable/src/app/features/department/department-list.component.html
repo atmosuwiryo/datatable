@@ -7,7 +7,7 @@
       <button class="action-item" (click)="onEdit(department)">Edit</button>
       <button class="action-item" (click)="onDelete(department)">Delete</button>
     </clr-dg-action-overflow>
-    <clr-dg-cell>{{ department.['name'] }}</clr-dg-cell>
+    <clr-dg-cell>{{ department?.['name'] }}</clr-dg-cell>
   </clr-dg-row>
   }
 
