@@ -17,8 +17,8 @@ async function main() {
     await prisma.employee.create({
       data: {
         name: employee.name,
-        departmentId: department.id,
-        positionId: position.id,
+        departmentId: department!.id,
+        positionId: position!.id,
         dateOfHire: employee.dateOfHire
       }
     });
