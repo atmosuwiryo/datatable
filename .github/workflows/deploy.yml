@@ -33,7 +33,7 @@ jobs:
         id: setSHAs
         uses: nrwl/nx-set-shas@v4
 
-      - name: Check for affected datatable-api
+      - name: Check for affected project
         id: check_affected
         run: |
           AFFECTED_APPS=$(npx nx show projects --affected)
@@ -44,6 +44,14 @@ jobs:
           else
             echo "datatable-api is not affected."
             echo "datatable_api_affected=false" >> $GITHUB_OUTPUT
+          fi
+
+          if [[ "$AFFECTED_APPS" == *"datatable"* ]]; then
+            echo "datatable is affected."
+            echo "datatable_affected=true" >> $GITHUB_OUTPUT
+          else
+            echo "datatable is not affected."
+            echo "datatable_affected=false" >> $GITHUB_OUTPUT
           fi
 
       - name: Build datatable-api
