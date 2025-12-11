@@ -17,12 +17,12 @@ jobs:
       - name: Setup pnpm
         uses: pnpm/action-setup@v2
         with:
-          version: 9
+          version: 10
 
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '18'
+          node-version: '22'
           cache: 'pnpm'
 
       - name: Install dependencies
@@ -34,9 +34,8 @@ jobs:
       - name: Check for affected datatable
         id: check_affected
         run: |
-          AFFECTED_JSON=$(npx nx print-affected)
-          echo "Affected projects: $AFFECTED_JSON"
-          AFFECTED_APPS=$(echo "$AFFECTED_JSON" | jq -r '.projects | join(" ")')
+          AFFECTED_APPS=$(npx nx show projects --affected)
+          echo "Affected apps: $AFFECTED_APPS"
 
           if [[ " $AFFECTED_APPS " == *" datatable "* ]]; then
             echo "datatable is affected."
