@@ -34,8 +34,9 @@ jobs:
       - name: Check for affected datatable
         id: check_affected
         run: |
-          AFFECTED_APPS=$(npx nx show projects --affected)
-          echo "Affected apps: $AFFECTED_APPS"
+          AFFECTED_JSON=$(npx nx show projects --affected)
+          echo "Affected projects: $AFFECTED_JSON"
+          AFFECTED_APPS=$(echo "$AFFECTED_JSON" | jq -r '.projects | join(" ")')
 
           if [[ " $AFFECTED_APPS " == *" datatable "* ]]; then
             echo "datatable is affected."
