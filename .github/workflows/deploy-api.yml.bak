@@ -3,38 +3,40 @@ name: CI - Build and Deploy datatable-api
 on:
   push:
     branches:
-      - main
+      - test_dockerhub
 
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0 # Required for nx affected
+          filter: tree:0 # Optional, but recommended: reduce the size of the checkout with tree filtering, see https://github.blog/open-source/git/get-up-to-speed-with-partial-clone-and-shallow-clone/
 
       - name: Setup pnpm
         uses: pnpm/action-setup@v2
         with:
-          version: 8
+          version: 10
 
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '18'
+          node-version: '22'
           cache: 'pnpm'
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Set Nx SHAs
-        uses: nrwl/nx-set-shas@v3
+      - name: Derive appropriate SHAs for base and head for `nx affected` commands
+        id: setSHAs
+        uses: nrwl/nx-set-shas@v4
 
       - name: Check for affected datatable-api
         id: check_affected
         run: |
-          AFFECTED_APPS=$(npx nx affected:apps --plain)
+          AFFECTED_APPS=$(npx nx show projects --affected)
           echo "Affected apps: $AFFECTED_APPS"
           if [[ "$AFFECTED_APPS" == *"datatable-api"* ]]; then
             echo "datatable-api is affected."
@@ -46,7 +48,8 @@ jobs:
 
       - name: Build datatable-api
         if: steps.check_affected.outputs.datatable_api_affected == 'true'
-        run: npx nx build datatable-api --prod
+        run: |
+          npm run build:datatable-api
 
       - name: Login to Docker Hub
         if: steps.check_affected.outputs.datatable_api_affected == 'true'

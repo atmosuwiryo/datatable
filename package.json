@@ -18,7 +18,7 @@
     "serve:datatable:local": "npm run env:init && npx nx serve datatable"
   },
   "prisma": {
-    "seed": "ts-node --compiler-options {\"module\":\"CommonJS\"} prisma/seed.ts"
+    "seed": "ts-node --compiler-options {\"module\":\"CommonJS\"} datatable-api/prisma/seed.ts"
   },
   "private": true,
   "devDependencies": {
@@ -100,5 +100,13 @@
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "zone.js": "0.15.1"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "@nestjs/core",
+      "@prisma/client",
+      "@prisma/engines",
+      "prisma"
+    ]
   }
 }

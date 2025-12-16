@@ -1,16 +1,21 @@
 # Stage 1: Runner
 FROM node:18-alpine
 WORKDIR /app
+RUN apk add --no-cache libc6-compat openssl
 
 # Copy the pre-built application
 COPY dist/datatable-api .
 
 # Copy production dependencies and install them
 COPY package.json pnpm-lock.yaml* ./
-RUN npm install -g pnpm && pnpm install --frozen-lockfile --prod
-
-# Copy Prisma schema and generate client
+# Copy Prisma schema and generated client
 COPY datatable-api/prisma ./datatable-api/prisma
+
+RUN npm install -g pnpm
+RUN pnpm install --frozen-lockfile --prod
+# RUN pnpm install --frozen-lockfile
+RUN pnpm install prisma
+
 RUN npm run prisma:generate
 
 # Copy and setup entrypoint
