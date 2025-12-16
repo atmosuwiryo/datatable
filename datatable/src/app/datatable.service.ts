@@ -1,12 +1,12 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { inject,Injectable } from '@angular/core';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DatatableService {
+  private http = inject(HttpClient);
 
-  constructor(private http: HttpClient) { }
 
   getDatatable() {
     return this.http.get('/api/employees/');

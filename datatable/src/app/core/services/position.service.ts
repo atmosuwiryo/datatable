@@ -1,14 +1,14 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 
-import { PositionPagination } from '../components/position/position-pagination.interface';
+import { PositionPagination } from '../../models/position-pagination.interface';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PositionService {
+  private httpClient = inject(HttpClient);
 
-  constructor(private httpClient: HttpClient) { }
 
   getPosition(
     page: number,
@@ -17,12 +17,12 @@ export class PositionService {
     reverse = false,
     filters?: unknown[]
   ) {
-    let url =  `/api/positions?page=${page}`
+    let url = `/api/positions?page=${page}`
       + `&take=${take}`
       + `&orderBy=${sort}`
-      + `&orderDirection=${reverse? 'desc': 'asc'}`;
+      + `&orderDirection=${reverse ? 'desc' : 'asc'}`;
     if (filters) {
-      (filters as [{property: string, value: string}]).forEach((filter) => {
+      (filters as [{ property: string, value: string }]).forEach((filter) => {
         url += `&search=${filter.value}`;
       });
     }

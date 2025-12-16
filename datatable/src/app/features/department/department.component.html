@@ -1,0 +1,8 @@
+<app-department-list
+  [departments]="departments$()"
+  [total]="count$()"
+  [loading]="loading"
+  (refresh)="refresh($event)"
+  (edit)="onEdit($event)"
+  (delete)="onDelete($event)"
+></app-department-list>

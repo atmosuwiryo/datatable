@@ -1,0 +1,8 @@
+<app-employee-list
+  [employees]="employees$()"
+  [total]="count$()"
+  [loading]="loading"
+  (refresh)="refresh($event)"
+  (edit)="onEdit($event)"
+  (delete)="onDelete($event)"
+></app-employee-list>

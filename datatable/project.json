@@ -8,16 +8,12 @@
   "targets": {
     "build": {
       "executor": "@angular-devkit/build-angular:browser",
-      "outputs": [
-        "{options.outputPath}"
-      ],
+      "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "dist/datatable",
         "index": "datatable/src/index.html",
         "main": "datatable/src/main.ts",
-        "polyfills": [
-          "zone.js"
-        ],
+        "polyfills": ["zone.js"],
         "tsConfig": "datatable/tsconfig.app.json",
         "inlineStyleLanguage": "scss",
         "assets": [
@@ -26,9 +22,7 @@
             "input": "datatable/public"
           }
         ],
-        "styles": [
-          "datatable/src/styles.scss"
-        ],
+        "styles": ["datatable/src/styles.scss"],
         "scripts": []
       },
       "configurations": {
@@ -77,7 +71,8 @@
       "defaultConfiguration": "development",
       "options": {
         "proxyConfig": "datatable/proxy.conf.json"
-      }
+      },
+      "continuous": true
     },
     "extract-i18n": {
       "executor": "@angular-devkit/build-angular:extract-i18n",
@@ -90,11 +85,10 @@
     },
     "test": {
       "executor": "@nx/jest:jest",
-      "outputs": [
-        "{workspaceRoot}/coverage/{projectRoot}"
-      ],
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
-        "jestConfig": "datatable/jest.config.ts"
+        "jestConfig": "datatable/jest.config.ts",
+        "tsConfig": "datatable/tsconfig.spec.json"
       }
     },
     "serve-static": {

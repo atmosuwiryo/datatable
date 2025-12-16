@@ -1,14 +1,14 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 
-import { EmployeePagination } from '../components/employee/employee-pagination.interface';
+import { EmployeePagination } from '../../models/employee-pagination.interface';
 
 @Injectable({
   providedIn: 'root'
 })
 export class EmployeeService {
+  private httpClient = inject(HttpClient);
 
-  constructor(private httpClient: HttpClient) { }
 
   getEmployee(
     page: number,
@@ -17,12 +17,12 @@ export class EmployeeService {
     reverse = false,
     filters?: unknown[]
   ) {
-    let url =  `/api/employees?page=${page}`
+    let url = `/api/employees?page=${page}`
       + `&take=${take}`
       + `&orderBy=${sort}`
-      + `&orderDirection=${reverse? 'desc': 'asc'}`;
+      + `&orderDirection=${reverse ? 'desc' : 'asc'}`;
     if (filters) {
-      (filters as [{property: string, value: string}]).forEach((filter) => {
+      (filters as [{ property: string, value: string }]).forEach((filter) => {
         if (filter.property === 'department') {
           url += `&department=${filter.value}`;
         } else if (filter.property === 'position') {

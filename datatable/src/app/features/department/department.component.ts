@@ -1,15 +1,18 @@
-import { CommonModule } from '@angular/common';
-import { Component, computed, effect, inject, signal } from '@angular/core';
-import { ClrDatagridModule, ClrDatagridStateInterface } from '@clr/angular';
-import { debounce, firstValueFrom, interval,Subject } from 'rxjs';
 
-import { DepartmentService } from '../../services/department.service';
-import { DepartmentPagination } from './department-pagination.interface';
+import { CommonModule } from '@angular/common';
+import { Component, computed, inject, signal } from '@angular/core';
+import { ClrDatagridStateInterface } from '@clr/angular';
+import { debounce, firstValueFrom, interval, Subject } from 'rxjs';
+
+import { DepartmentService } from '../../core/services/department.service';
+import { DepartmentType } from '../../models/department.model';
+import { DepartmentPagination } from '../../models/department-pagination.interface';
+import { DepartmentListComponent } from './department-list.component';
 
 @Component({
   selector: 'app-department',
   standalone: true,
-  imports: [CommonModule, ClrDatagridModule],
+  imports: [CommonModule, DepartmentListComponent],
   templateUrl: './department.component.html',
   styleUrl: './department.component.css',
 })
@@ -24,7 +27,6 @@ export class DepartmentComponent {
   };
 
   selectedDepartments = [];
-  page = 1;
   take = 10;
 
   departmentsPagination$ = signal(this.departmentsPaginationInitialValue);
@@ -37,23 +39,17 @@ export class DepartmentComponent {
   debouncer = new Subject<ClrDatagridStateInterface>();
 
   constructor() {
-    // effect(() => {
-    //   console.log('effect: departmentsPagination$', this.departmentsPagination$());
-    //   console.log('effect: departments$', this.departments$());
-    //   console.log('effect: count$', this.count$());
-    // })
-
     this.debouncer.asObservable().pipe(debounce(() => interval(500))).subscribe(state => {
       const sort = state.sort ? state.sort.by as string : 'name';
       const reverse = state.sort ? state.sort.reverse : false;
-      this.getDepartments(this.page, this.take, state.filters, sort, reverse);
+      this.getDepartments(1, this.take, state.filters, sort, reverse);
     });
   }
 
   async getDepartments(
     page: number,
     take: number,
-    filters?: unknown[],
+    filters?: { property: string; value: string }[],
     sort = 'name',
     reverse = false
   ): Promise<void> {
@@ -65,17 +61,12 @@ export class DepartmentComponent {
     this.departmentsPagination$.set(departmentsPagination$);
   }
 
-  pageChanged(page: number) {
-    this.selectedDepartments = [];
-  }
-
   refresh(state: ClrDatagridStateInterface) {
-    // Check is filter changed by comparing 2 filters arrays,
-    // here we use JSON.stringify to compare 2 objects
-    const isFilterChanged = JSON.stringify(state.filters) !== JSON.stringify(this.previousState?.filters) ? true:false;
+    const isFilterChanged = JSON.stringify(state.filters) !== JSON.stringify(this.previousState?.filters) ? true : false;
 
+    let page = 1;
     if (state.page?.current) {
-      this.page = state.page.current;
+      page = state.page.current;
     }
     if (state.page?.size) {
       this.take = state.page.size;
@@ -90,22 +81,21 @@ export class DepartmentComponent {
 
     this.previousState = state;
 
-    // Debounce only for filter changes
     if (isFilterChanged) {
       this.debouncer.next(state);
     } else {
       const sort = state.sort ? state.sort.by as string : 'name';
       const reverse = state.sort ? state.sort.reverse : false;
 
-      this.getDepartments(this.page, this.take, state.filters, sort, reverse);
+      this.getDepartments(page, this.take, state.filters, sort, reverse);
     }
   }
 
-  onEdit(department: any) {
+  onEdit(department: DepartmentType) {
     console.log(department);
   }
 
-  onDelete(department: any) {
+  onDelete(department: DepartmentType) {
     console.log(department);
   }
 }
